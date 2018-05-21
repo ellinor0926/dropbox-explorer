@@ -1,10 +1,54 @@
 import React, { Component } from 'react';
-//import logo from './logo.svg';
 import './App.css';
-import isomorphic_fetch from "isomorphic-fetch";
-import {Dropbox} from "dropbox";
+import { Dropbox } from 'dropbox';
+import Login from './components/login';
+import { Provider } from 'react-redux';
+import store from './store'
 
-const dbx = new Dropbox({ accessToken: 'c7DtuxqbUkAAAAAAAAAAYG_K2MS76Mo7a5AClLFEHeM4I6gGyXo4jVGSJ_yC38J-' });
+
+const parseQueryString = (str) => {
+    const ret = Object.create(null);
+
+    if (typeof str !== 'string') {
+        return ret;
+    }
+
+    str = str.trim().replace(/^(\?|#|&)/, '');
+
+    if (!str) {
+        return ret;
+    }
+
+    str.split('&').forEach(function (param) {
+        const parts = param.replace(/\+/g, ' ').split('=');
+        // Firefox (pre 40) decodes `%3D` to `=`
+        // https://github.com/sindresorhus/query-string/pull/37
+        let key = parts.shift();
+        let val = parts.length > 0 ? parts.join('=') : undefined;
+
+        key = decodeURIComponent(key);
+
+        // missing `=` should be `null`:
+        // http://w3.org/TR/2012/WD-url-20120524/#collect-url-parameters
+        val = val === undefined ? null : decodeURIComponent(val);
+
+        if (ret[key] === undefined) {
+            ret[key] = val;
+        } else if (Array.isArray(ret[key])) {
+            ret[key].push(val);
+        } else {
+            ret[key] = [ret[key], val];
+        }
+    });
+
+    return ret;
+};
+
+function getAccessTokenFromUrl() {
+    return parseQueryString(window.location.hash).access_token;
+}
+
+const dbx = new Dropbox({ accessToken: getAccessTokenFromUrl() });
 
 dbx.filesListFolder({path: ''})
     .then(function(response) {
@@ -14,14 +58,10 @@ dbx.filesListFolder({path: ''})
         console.log(error);
     });
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-          <a href="https://www.dropbox.com/1/oauth2/authorize?client_id=t4n1bbstcjhb69w&response_type=token&redirect_uri=http://localhost">Link</a>
-      </div>
+export default render => {
+    render(
+        <Provider store={store}>
+            <Login />
+        </Provider>
     );
-  }
-}
-
-export default App;
+};
