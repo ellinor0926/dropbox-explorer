@@ -1,18 +1,24 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
+import isomorphic_fetch from "isomorphic-fetch";
+import {Dropbox} from "dropbox";
+
+const dbx = new Dropbox({ accessToken: 'c7DtuxqbUkAAAAAAAAAAYG_K2MS76Mo7a5AClLFEHeM4I6gGyXo4jVGSJ_yC38J-' });
+
+dbx.filesListFolder({path: ''})
+    .then(function(response) {
+        console.log(response);
+    })
+    .catch(function(error) {
+        console.log(error);
+    });
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+          <a href="https://www.dropbox.com/1/oauth2/authorize?client_id=t4n1bbstcjhb69w&response_type=token&redirect_uri=http://localhost">Link</a>
       </div>
     );
   }
