@@ -14,10 +14,10 @@ export const saveFiles = files => ({
     files
 });
 
-export const fetchFiles = (token) => (dispatch) => {
+export const fetchFiles = (token, path = '') => (dispatch) => {
     const dbx = new Dropbox({ accessToken: token});
 
-    dbx.filesListFolder({path: ''})
+    dbx.filesListFolder({path: path})
         .then(function(response) {
            dispatch(saveFiles(response.entries))
         })

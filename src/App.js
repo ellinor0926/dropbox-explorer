@@ -1,7 +1,7 @@
 import React, { Component, Fragment as F } from 'react';
 import { Dropbox } from 'dropbox';
 // import Login from './components/login';
-// import ShowFiles from './components/files';
+// import ShowContent from './components/showContent';
 import MainLayout from './components/main-layout';
 import { Provider } from 'react-redux';
 import store from './store'

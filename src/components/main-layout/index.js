@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import Login from '../login';
-import ShowFiles from '../files';
+import ShowContent from '../showContent';
 import {fetchFiles, setToken} from "../../actions";
 
 
@@ -18,7 +18,7 @@ class MainLayout extends Component {
             {!this.props.accessToken ? (
                 <Login />
             ) : (
-                <ShowFiles />
+                <ShowContent />
                 )}
         </div>
         );
