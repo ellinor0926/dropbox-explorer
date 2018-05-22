@@ -22,12 +22,11 @@ class Login extends Component {
         const url = `https://www.dropbox.com/1/oauth2/authorize?client_id=${CLIENT_ID}&response_type=token&redirect_uri=http://localhost:3000/`;
 
         return (
-            !this.props.accessToken
-                ?
+
             <div>
                 <a href={url}>Authenticate</a>
             </div>
-                : `Nice, you've logged in with authtoken: ${this.props.accessToken} `
+
         );
     }
 

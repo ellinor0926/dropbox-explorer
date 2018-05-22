@@ -19,7 +19,7 @@ export const fetchFiles = (token) => (dispatch) => {
 
     dbx.filesListFolder({path: ''})
         .then(function(response) {
-           dispatch(saveFiles(response))
+           dispatch(saveFiles(response.entries))
         })
         .catch(function(error) {
             console.log(error);
