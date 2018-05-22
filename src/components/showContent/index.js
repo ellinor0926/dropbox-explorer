@@ -3,16 +3,27 @@ import {connect} from "react-redux";
 import {setToken, saveFiles, fetchFiles} from "../../actions";
 import Folder from "../folder";
 import File from "../file";
+import Dropbox from "dropbox";
+
 
 class ShowContent extends Component {
+
+    upToParent = () => {
+
+    };
+
 
     handleFolderClick = (path) => {
         console.log(path);
         this.props.fetchFiles(this.props.accessToken, path);
     };
 
-    handleFileClick = () => {
-        console.log('Clicked a file')
+    handleFileClick = (file) => {
+        let path = {path: file.path_lower};
+        const dbx = new Dropbox.Dropbox({ accessToken: this.props.accessToken });
+        dbx.filesGetTemporaryLink(path)
+            .then(response => window.open(`${response.link}`));
+
     };
 
     componentDidMount() {
@@ -30,6 +41,7 @@ class ShowContent extends Component {
             ?
                 (
             <div>
+                <button onClick={() => this.upToParent()}> Up to Parent</button>
                 <p>All files fetched!</p>
                 {allFiles.map((file, i) =>
                     file['.tag'] === 'folder'
@@ -43,7 +55,7 @@ class ShowContent extends Component {
                     <File
                         name={file.name}
                         key={i}
-                        onClick={() => this.handleFileClick()}
+                        onClick={() => this.handleFileClick(file)}
                     />
                 ))}
 
