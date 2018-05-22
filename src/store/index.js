@@ -1,11 +1,16 @@
-import { createStore } from 'redux';
+import { createStore, compose, applyMiddleware } from 'redux';
 
 import reducer from '../reducers';
+import thunk from 'redux-thunk';
+
+const composeEnhancer = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
 const initialState = {
-    accessToken: ``
+    accessToken: ``,
+    files: []
 };
 export default createStore(
     reducer,
-    initialState
-);
+    initialState,
+    composeEnhancer(applyMiddleware(thunk)
+    ));
