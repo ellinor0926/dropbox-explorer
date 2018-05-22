@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import {connect, Provider} from 'react-redux';
-import store from '../../store'
+import {connect} from 'react-redux';
 import Login from '../login';
 import ShowFiles from '../files';
-import {fetchFiles} from "../../actions";
+import {fetchFiles, setToken} from "../../actions";
 
 
 
@@ -17,16 +16,9 @@ class MainLayout extends Component {
         return (
         <div>
             {!this.props.accessToken ? (
-            <div>
-                <Provider store={store}>
-                    <Login />
-                </Provider>
-            </div>) : (
-            <div>
-                <Provider store={store}>
-                    <ShowFiles />
-                </Provider>
-            </div>
+                <Login />
+            ) : (
+                <ShowFiles />
                 )}
         </div>
         );
@@ -36,9 +28,11 @@ class MainLayout extends Component {
 
 export default connect(
     state => ({
-        accessToken: state.accessToken
+        accessToken: state.accessToken,
+        files: state.files
     }),
     {
+        setToken,
         fetchFiles
     }
 )(MainLayout);

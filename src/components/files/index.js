@@ -1,37 +1,38 @@
 import React, {Component} from "react";
-import {Dropbox} from "dropbox/src/index";
 import {connect} from "react-redux";
 import {setToken, saveFiles, fetchFiles} from "../../actions";
-
-let files;
 
 class ShowFiles extends Component {
 
 
     componentDidMount() {
         this.props.fetchFiles(this.props.accessToken);
-        console.log(this.props.files)
     }
-
 
 
     render() {
 
+        let allFiles = this.props.files;
 
         return (
+            allFiles
+            ?
+                (
             <div>
                 <ul>
-                    <button> HEJ </button>
-                    <p>dsdad</p>
-                    <p>{this.props.accessToken}</p>
+                    <p>All files fetched!</p>
+                    {allFiles.map((file, i) => <li key={i}> {file.name} </li>)}
                 </ul>
             </div>
+                ): (
+                    <p> Loading files ....</p>
+                )
         );
 
 
     };
 
-};
+}
 
 export default connect(
     state => ({
