@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setToken} from "../../actions";
+import {getFilesFromDropbox, setToken} from "../../actions";
 import { parseQueryString } from '../../utils'
+import {createDropbox} from "../../dropboxShared";
 
 
 
@@ -9,13 +10,20 @@ class Login extends Component {
 
     getAccessTokenFromUrl = () => {
        return parseQueryString(window.location.hash).access_token;
-
-
     };
+
     componentDidMount() {
-        const dbx = this.getAccessTokenFromUrl();
-        this.props.setToken(dbx);
+        const token = this.getAccessTokenFromUrl();
+        this.props.setToken(token);
+        if (token) {
+            createDropbox(token);
+            this.props.getFilesFromDropbox(token, this.props.currentPath);
+        }
+
+
     }
+
+
 
     render() {
         const CLIENT_ID = 't4n1bbstcjhb69w';
@@ -34,11 +42,13 @@ class Login extends Component {
 
 export default connect(
     state => ({
-      accessToken: state.accessToken
+      token: state.token,
+        currentPath: state.currentPath
     }),
 
     {
-        setToken
+        setToken,
+        getFilesFromDropbox
     }
 )(Login);
 

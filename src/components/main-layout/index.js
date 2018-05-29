@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import Login from '../login';
 import ShowContent from '../showContent';
-import {fetchFiles, setToken} from "../../actions";
+import { getFilesFromDropbox, setCurrentPath, setToken} from "../../actions";
+
 
 
 
@@ -10,15 +11,30 @@ import {fetchFiles, setToken} from "../../actions";
 class MainLayout extends Component {
 
     componentDidMount() {
+
     }
+
+    handleFolderClick = (path) => {
+        this.props.setCurrentPath(path);
+
+        if (!this.props.files[path]) {
+            this.props.getFilesFromDropbox()
+        }
+
+    };
+
+
     render() {
 
         return (
         <div>
-            {!this.props.accessToken ? (
+            {!this.props.token ? (
                 <Login />
             ) : (
-                <ShowContent />
+                <ShowContent
+                    onFolderClick={this.handleFolderClick}
+                    files={this.props.files[this.props.currentPath]}
+                />
                 )}
         </div>
         );
@@ -28,12 +44,14 @@ class MainLayout extends Component {
 
 export default connect(
     state => ({
-        accessToken: state.accessToken,
-        files: state.files
+        token: state.token,
+        files: state.files,
+        currentPath: state.currentPath
     }),
     {
         setToken,
-        fetchFiles
+        setCurrentPath,
+        getFilesFromDropbox
     }
 )(MainLayout);
 
