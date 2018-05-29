@@ -1,84 +1,64 @@
-import React, {Component} from "react";
-import {connect} from "react-redux";
-import {setToken, saveFiles, fetchFiles} from "../../actions";
+import React from "react";
+
 import Folder from "../folder";
 import File from "../file";
-import Dropbox from "dropbox";
 
 
-class ShowContent extends Component {
 
-    upToParent = () => {
-
-    };
+export default function ShowContent({onFolderClick, files}) {
 
 
-    handleFolderClick = (path) => {
-        console.log(path);
-        this.props.fetchFiles(this.props.accessToken, path);
-    };
+    // handleFileClick = (file) => {
+    //     let path = {path: file.path_lower};
+    //     const dbx = new Dropbox.Dropbox({ accessToken: this.props.token });
+    //     dbx.filesGetTemporaryLink(path)
+    //         .then(response => window.open(`${response.link}`));
+    //
+    // };
 
-    handleFileClick = (file) => {
-        let path = {path: file.path_lower};
-        const dbx = new Dropbox.Dropbox({ accessToken: this.props.accessToken });
-        dbx.filesGetTemporaryLink(path)
-            .then(response => window.open(`${response.link}`));
+    let allFiles = files;
+    //console.log(allFiles);
 
-    };
-
-    componentDidMount() {
-        this.props.fetchFiles(this.props.accessToken, this.props.path);
-    }
-
-
-    render() {
-
-        let allFiles = this.props.files;
-        console.log(allFiles);
-
-        return (
-            allFiles
+    return (
+        allFiles
             ?
-                (
-            <div>
-                <button onClick={() => this.upToParent()}> Up to Parent</button>
-                <p>All files fetched!</p>
-                {allFiles.map((file, i) =>
-                    file['.tag'] === 'folder'
-                    ? (
-                    <Folder
-                        name={file.name}
-                        key={i}
-                        onClick={() => this.handleFolderClick(file.path_lower)}
-                    />
-                ) : (
-                    <File
-                        name={file.name}
-                        key={i}
-                        onClick={() => this.handleFileClick(file)}
-                    />
-                ))}
+            (
+                <div>
+                    <p>All files fetched!</p>
+                    {allFiles.map((file, i) =>
+                        file['.tag'] === 'folder'
+                            ? (
+                                <Folder
+                                    name={file.name}
+                                    key={i}
+                                    onClick={() => onFolderClick(file.path_lower)}
+                                />
+                            ) : (
+                                <File
+                                    name={file.name}
+                                    key={i}
+
+                                />
+                            ))}
 
 
-            </div>
-                ): (
-                    <p> Loading files ....</p>
-                )
-        );
+                </div>
+            ) : (
+                <p> Loading files ....</p>
+            )
+    );
 
-
-    };
 
 }
-
-export default connect(
-    state => ({
-        accessToken: state.accessToken,
-        files: state.files
-    }),
-    {
-        setToken,
-        saveFiles,
-        fetchFiles
-    }
-)(ShowContent);
+// onClick={() => this.handleFileClick(file)}
+// export default connect(
+//     state => ({
+//         token: state.token,
+//         files: state.files
+//     }),
+//     {
+//         setToken,
+//         saveFiles,
+//         fetchFiles
+//     }
+// )(ShowContent);
