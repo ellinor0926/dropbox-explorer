@@ -17,7 +17,7 @@ class Login extends Component {
         this.props.setToken(token);
         if (token) {
             createDropbox(token);
-            this.props.getFilesFromDropbox(token, this.props.currentPath);
+            this.props.getFilesFromDropbox(this.props.currentPath);
         }
 
 
@@ -42,7 +42,7 @@ class Login extends Component {
 
 export default connect(
     state => ({
-      token: state.token,
+        token: state.token,
         currentPath: state.currentPath
     }),
 

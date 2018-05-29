@@ -25,6 +25,7 @@ export default function ShowContent({onFolderClick, files}) {
             (
                 <div>
                     <p>All files fetched!</p>
+
                     {allFiles.map((file, i) =>
                         file['.tag'] === 'folder'
                             ? (
