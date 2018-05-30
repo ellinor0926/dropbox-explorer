@@ -53,10 +53,26 @@ export const saveToken = () => (dispatch, getState) => {
             return;
         }
         localStorage.setItem('token', token);
+
+        // After saving the token - remove the token from URL
+        window.location.replace('http://localhost:3000');
     }
+
         createDropbox(token);
 
         dispatch(getFilesFromDropbox('/'));
         dispatch(setToken(token));
+
+
+
+
+};
+
+export const logOut = () => (dispatch, getState) => {
+
+    localStorage.removeItem('token');
+    dispatch(setToken(''));
+    getDropbox().authTokenRevoke()
+        .then( () => console.log('loggar ut'));
 
 };

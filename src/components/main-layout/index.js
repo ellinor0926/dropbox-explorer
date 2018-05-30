@@ -2,8 +2,10 @@ import React, {Component, Fragment as F} from 'react';
 import {connect} from 'react-redux';
 import Login from '../login';
 import ShowContent from '../showContent';
-import {getFilesFromDropbox, setCurrentPath, setToken} from "../../actions";
+import {getFilesFromDropbox, logOut, setCurrentPath, setToken} from "../../actions";
 import Crumbs from "../crumbs";
+import {getDropbox} from "../../dropboxShared";
+import Dropbox from 'dropbox';
 
 
 class MainLayout extends Component {
@@ -30,14 +32,12 @@ class MainLayout extends Component {
 
     };
 
-    // handleFileClick = (file) => {
-    //     let path = {path: file.path_lower};
-    //     const dbx = new Dropbox.Dropbox({ accessToken: this.props.token });
-    //     dbx.filesGetTemporaryLink(path)
-    //         .then(response => window.open(`${response.link}`));
-    //
-    // };
+    signOut = () => {
+        this.props.logOut();
 
+
+
+    };
 
 
     render() {
@@ -49,11 +49,12 @@ class MainLayout extends Component {
                     <Login/>
                 ) : (
                     <F>
-                        {currentPath !== '/' && <Crumbs onClick={this.handleNavigation} currentPath={currentPath}/> }
-                        {currentPath !== '/' && <button  className="btn" onClick={this.upToParent}>Up to parent</button>}
-                        <ShowContent
-                            onFolderClick={this.handleNavigation}
-                            files={files[currentPath]}
+                     <button onClick={this.signOut} className="btn btn-lg">Sign Out</button>
+                    {currentPath !== '/' && <Crumbs onClick={this.handleNavigation} currentPath={currentPath}/> }
+                    {currentPath !== '/' && <button  className="btn" onClick={this.upToParent}>Up to parent</button>}
+                    <ShowContent
+                        onFolderClick={this.handleNavigation}
+                        files={files[currentPath]}
                         />
                     </F>
                 )}
@@ -72,7 +73,8 @@ export default connect(
     {
         setToken,
         setCurrentPath,
-        getFilesFromDropbox
+        getFilesFromDropbox,
+        logOut
     }
 )(MainLayout);
 
