@@ -26,11 +26,7 @@ class MainLayout extends Component {
     };
 
     handleNavigation = (path) => {
-        this.props.setCurrentPath(path);
-
-        if (!this.props.files[path]) {
-            this.props.getFilesFromDropbox(path)
-        }
+        this.props.getFilesFromDropbox(path)
 
     };
 

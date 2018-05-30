@@ -5,7 +5,6 @@ let instance;
 // invoke after successful login
 export const createDropbox = accessToken => {
     instance = new Dropbox({ accessToken });
-    console.log(instance);
 };
 
 // invoke when calling dropbox API.

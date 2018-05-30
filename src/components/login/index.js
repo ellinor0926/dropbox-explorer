@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {getFilesFromDropbox, setToken} from "../../actions";
+import {getFilesFromDropbox, saveToken, setToken} from "../../actions";
 import { parseQueryString } from '../../utils'
 import {createDropbox} from "../../dropboxShared";
 
@@ -13,15 +13,15 @@ class Login extends Component {
     };
 
     componentDidMount() {
-        const token = this.getAccessTokenFromUrl();
-        this.props.setToken(token);
-        if (token) {
-            createDropbox(token);
-            this.props.getFilesFromDropbox(this.props.currentPath);
+      this.props.saveToken();
+
+        if (this.props.token) {
+          console.log('Det finns token');
         }
 
 
     }
+
 
 
 
@@ -47,8 +47,8 @@ export default connect(
     }),
 
     {
-        setToken,
-        getFilesFromDropbox
+        getFilesFromDropbox,
+        saveToken
     }
 )(Login);
 

@@ -1,5 +1,6 @@
 //import {Dropbox} from "dropbox/src/index";
-import {getDropbox} from "../dropboxShared";
+import {createDropbox, getDropbox} from "../dropboxShared";
+import {parseQueryString} from "../utils";
 
 export const SET_TOKEN = 'SET_TOKEN';
 export const SAVE_FILES = 'SAVE_FILES';
@@ -25,12 +26,37 @@ export const setCurrentPath = (path) => ({
 // action creator: getFilesFromDropbox
 export const getFilesFromDropbox = (newPath) => (dispatch, getState) => {
 
-   // let currentPath = getState().currentPath;
+    //const currentPath = getState().currentPath;
+    dispatch(setCurrentPath(newPath));
 
-    const dropboxPath = newPath === "/" ? "" : newPath;
-    getDropbox().filesListFolder({path: dropboxPath})
-        .then(files => dispatch(saveFiles(files.entries, newPath)))
-        .catch(function (error) {
-            console.log(error);
-        });
+    if (!getState().files[newPath]) {
+        const dropboxPath = newPath === "/" ? "" : newPath;
+        getDropbox().filesListFolder({path: dropboxPath})
+            .then(files => dispatch(saveFiles(files.entries, newPath)))
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+};
+
+// action creator: saveTheToken
+export const saveToken = () => (dispatch, getState) => {
+
+    let token;
+    if (localStorage.getItem('token')) {
+         token = localStorage.getItem('token');
+
+    } else {
+        token = parseQueryString(window.location.hash).access_token;
+        if(!token) {
+            return;
+        }
+        localStorage.setItem('token', token);
+    }
+        createDropbox(token);
+
+        dispatch(getFilesFromDropbox('/'));
+        dispatch(setToken(token));
+
 };
