@@ -1,23 +1,23 @@
 import React from "react";
-
 import Folder from "../folder";
 import File from "../file";
+import {getDropbox} from "../../dropboxShared";
 
 
 
 export default function ShowContent({onFolderClick, files}) {
 
 
-    // handleFileClick = (file) => {
-    //     let path = {path: file.path_lower};
-    //     const dbx = new Dropbox.Dropbox({ accessToken: this.props.token });
-    //     dbx.filesGetTemporaryLink(path)
-    //         .then(response => window.open(`${response.link}`));
-    //
-    // };
-
     let allFiles = files;
-    //console.log(allFiles);
+
+    const downloadFile = (file) => {
+        let path = {path: file.path_lower};
+
+        getDropbox().filesGetTemporaryLink(path)
+            .then(response => window.open(`${response.link}`));
+
+    };
+
 
     return (
         allFiles
@@ -36,6 +36,7 @@ export default function ShowContent({onFolderClick, files}) {
                                 />
                             ) : (
                                 <File
+                                    onClick={() => downloadFile(file)}
                                     name={file.name}
                                     key={i}
 
@@ -49,17 +50,4 @@ export default function ShowContent({onFolderClick, files}) {
             )
     );
 
-
 }
-// onClick={() => this.handleFileClick(file)}
-// export default connect(
-//     state => ({
-//         token: state.token,
-//         files: state.files
-//     }),
-//     {
-//         setToken,
-//         saveFiles,
-//         fetchFiles
-//     }
-// )(ShowContent);

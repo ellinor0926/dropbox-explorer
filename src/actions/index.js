@@ -25,7 +25,7 @@ export const setCurrentPath = (path) => ({
 // action creator: getFilesFromDropbox
 export const getFilesFromDropbox = (newPath) => (dispatch, getState) => {
 
-    let currentPath = getState().currentPath;
+   // let currentPath = getState().currentPath;
 
     const dropboxPath = newPath === "/" ? "" : newPath;
     getDropbox().filesListFolder({path: dropboxPath})

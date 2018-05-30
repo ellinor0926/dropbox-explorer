@@ -12,6 +12,19 @@ class MainLayout extends Component {
 
     }
 
+    upToParent = () => {
+        // Splits up the current path and removes last element
+        const newPathArray = this.props.currentPath.split('/');
+        newPathArray.pop();
+
+        // Back together they go! :)
+        let newPath = newPathArray.join('/');
+
+        // If the parent is root, do one thing, otherwise do something else
+        newPath === '' ? this.handleNavigation('/') : this.handleNavigation(newPath)
+
+    };
+
     handleNavigation = (path) => {
         this.props.setCurrentPath(path);
 
@@ -20,6 +33,15 @@ class MainLayout extends Component {
         }
 
     };
+
+    // handleFileClick = (file) => {
+    //     let path = {path: file.path_lower};
+    //     const dbx = new Dropbox.Dropbox({ accessToken: this.props.token });
+    //     dbx.filesGetTemporaryLink(path)
+    //         .then(response => window.open(`${response.link}`));
+    //
+    // };
+
 
 
     render() {
@@ -31,7 +53,8 @@ class MainLayout extends Component {
                     <Login/>
                 ) : (
                     <F>
-                        <Crumbs onClick={this.handleNavigation} currentPath={currentPath}/>
+                        {currentPath !== '/' && <Crumbs onClick={this.handleNavigation} currentPath={currentPath}/> }
+                        {currentPath !== '/' && <button  className="btn" onClick={this.upToParent}>Up to parent</button>}
                         <ShowContent
                             onFolderClick={this.handleNavigation}
                             files={files[currentPath]}
