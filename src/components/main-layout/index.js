@@ -1,11 +1,9 @@
-import React, { Component } from 'react';
+import React, {Component, Fragment as F} from 'react';
 import {connect} from 'react-redux';
 import Login from '../login';
 import ShowContent from '../showContent';
-import { getFilesFromDropbox, setCurrentPath, setToken} from "../../actions";
-
-
-
+import {getFilesFromDropbox, setCurrentPath, setToken} from "../../actions";
+import Crumbs from "../crumbs";
 
 
 class MainLayout extends Component {
@@ -14,29 +12,33 @@ class MainLayout extends Component {
 
     }
 
-    handleFolderClick = (path) => {
+    handleNavigation = (path) => {
         this.props.setCurrentPath(path);
 
         if (!this.props.files[path]) {
-            this.props.getFilesFromDropbox()
+            this.props.getFilesFromDropbox(path)
         }
 
     };
 
 
     render() {
+        const { currentPath, files, token } = this.props;
 
         return (
-        <div>
-            {!this.props.token ? (
-                <Login />
-            ) : (
-                <ShowContent
-                    onFolderClick={this.handleFolderClick}
-                    files={this.props.files[this.props.currentPath]}
-                />
+            <div>
+                {!token ? (
+                    <Login/>
+                ) : (
+                    <F>
+                        <Crumbs onClick={this.handleNavigation} currentPath={currentPath}/>
+                        <ShowContent
+                            onFolderClick={this.handleNavigation}
+                            files={files[currentPath]}
+                        />
+                    </F>
                 )}
-        </div>
+            </div>
         );
     }
 };

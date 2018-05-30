@@ -21,39 +21,16 @@ export const setCurrentPath = (path) => ({
     path
 });
 
-export const fetchFiles = (token, path = '') => (dispatch, getState) => {
-    //const dbx = new Dropbox({ accessToken: token});
-
-    getDropbox().filesListFolder({path: path})
-        .then(function(response) {
-           if (path === '') {
-               path = '/'
-           }
-           // dispatch(saveFiles(response.entries));
-           dispatch(saveFiles({[path]: response.entries}));
-            console.log('path:', path, 'entries:', response.entries);
-        })
-        .catch(function(error) {
-            console.log(error);
-        });
-};
 
 // action creator: getFilesFromDropbox
-export const getFilesFromDropbox = () => (dispatch, getState) => {
+export const getFilesFromDropbox = (newPath) => (dispatch, getState) => {
+
     let currentPath = getState().currentPath;
 
-    if (currentPath === '/') {
-        getDropbox().filesListFolder({path: ''})
-            .then(files => dispatch(saveFiles(files.entries, currentPath)))
-            .catch(function(error) {
-                console.log(error);
-            });
-    } else {
-        getDropbox().filesListFolder({path: currentPath})
-            .then(files => dispatch(saveFiles(files.entries, currentPath)))
-            .catch(function(error) {
-                console.log(error);
-            });
-    }
-
+    const dropboxPath = newPath === "/" ? "" : newPath;
+    getDropbox().filesListFolder({path: dropboxPath})
+        .then(files => dispatch(saveFiles(files.entries, newPath)))
+        .catch(function (error) {
+            console.log(error);
+        });
 };
