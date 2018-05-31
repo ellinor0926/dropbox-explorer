@@ -5,6 +5,7 @@ import {parseQueryString} from "../utils";
 export const SET_TOKEN = 'SET_TOKEN';
 export const SAVE_FILES = 'SAVE_FILES';
 export const SET_CURRENT_PATH = 'SET_CURRENT_PATH';
+export const UPLOAD_FILE_TO_STATE = 'UPLOAD_FILE_TO_STATE';
 
 export const setToken = token => ({
     type: SET_TOKEN,
@@ -19,6 +20,12 @@ export const saveFiles = (files, currentPath) => ({
 
 export const setCurrentPath = (path) => ({
     type: SET_CURRENT_PATH,
+    path
+});
+
+export const uploadFileToState = (file, path) => ({
+    type: UPLOAD_FILE_TO_STATE,
+    file,
     path
 });
 
@@ -74,5 +81,18 @@ export const logOut = () => (dispatch, getState) => {
     dispatch(setToken(''));
     getDropbox().authTokenRevoke()
         .then( () => console.log('loggar ut'));
+
+};
+
+export const uploadFile = (file, path) => (dispatch, getState) => {
+
+    getDropbox().filesUpload({path: path + file.name, contents: file})
+        .then(function(response) {
+            console.log(response);
+           dispatch(uploadFileToState(response, path))
+        })
+        .catch(function(error) {
+            console.error(error);
+        });
 
 };
