@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {getFilesFromDropbox, saveToken, setToken} from "../../actions";
-import { parseQueryString } from '../../utils'
-import {createDropbox} from "../../dropboxShared";
+import {getFilesFromDropbox, saveToken} from "../../actions";
+
 import Dropbox from "dropbox";
 
 
