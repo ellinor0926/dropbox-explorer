@@ -8,7 +8,7 @@ class Upload extends Component {
 
 
     render () {
-        let inputField;
+        //let inputField;
 
         const onDrop = (acceptedFiles, rejectedFiles) => {
 

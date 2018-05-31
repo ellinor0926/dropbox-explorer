@@ -1,14 +1,10 @@
 import React from "react";
-import Folder from "../folder";
 import File from "../file";
 import {getDropbox} from "../../dropboxShared";
 
 
 
-export default function ShowContent({onFolderClick, files}) {
-
-
-    let allFiles = files;
+export default function ShowContent({onFolderClick, files, starredItems, onStarClick}) {
 
     const downloadFile = (file) => {
         let path = {path: file.path_lower};
@@ -20,28 +16,24 @@ export default function ShowContent({onFolderClick, files}) {
 
 
     return (
-        allFiles
+
+        files
             ?
             (
                 <div>
                     <p>All files fetched!</p>
 
-                    {allFiles.map((file, i) =>
-                        file['.tag'] === 'folder'
-                            ? (
-                                <Folder
-                                    name={file.name}
-                                    key={i}
-                                    onClick={() => onFolderClick(file.path_lower)}
-                                />
-                            ) : (
-                                <File
-                                    onClick={() => downloadFile(file)}
-                                    name={file.name}
-                                    key={i}
+                    {files.map((file, i) =>
 
+                                <File
+                                    fileClick={() => downloadFile(file)}
+                                    folderClick={() => onFolderClick(file.path_lower)}
+                                    file={file}
+                                    key={i}
+                                    star={starredItems.includes(file)}
+                                    starClick={() => onStarClick(file)}
                                 />
-                            ))}
+                            )}
 
 
                 </div>
