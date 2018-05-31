@@ -4,8 +4,7 @@ import Login from '../login';
 import ShowContent from '../showContent';
 import {getFilesFromDropbox, logOut, setCurrentPath, setToken} from "../../actions";
 import Crumbs from "../crumbs";
-import {getDropbox} from "../../dropboxShared";
-import Dropbox from 'dropbox';
+import Upload from "../upload";
 
 
 class MainLayout extends Component {
@@ -56,6 +55,7 @@ class MainLayout extends Component {
                         onFolderClick={this.handleNavigation}
                         files={files[currentPath]}
                         />
+                        <Upload/>
                     </F>
                 )}
             </div>
