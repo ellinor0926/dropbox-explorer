@@ -2,7 +2,14 @@ import React, {Component, Fragment as F} from 'react';
 import {connect} from 'react-redux';
 import Login from '../login';
 import ShowContent from '../showContent';
-import {getFilesFromDropbox, handleStarredItems, logOut, setCurrentPath, setToken} from "../../actions";
+import {
+    getFilesFromDropbox,
+    handleStarredItems,
+    loadStarredFilesFromStorage,
+    logOut,
+    setCurrentPath,
+    setToken
+} from "../../actions";
 import Crumbs from "../crumbs";
 import Upload from "../upload";
 
@@ -10,14 +17,6 @@ import Upload from "../upload";
 class MainLayout extends Component {
 
     componentDidMount() {
-        if (!localStorage.getItem('starredItems') || localStorage.getItem('starredItems').length === 0) {
-            console.log('nope')
-        } else {
-            const stars = JSON.parse(localStorage.getItem('starredItems'));
-            for (let star of stars) {
-                this.props.handleStarredItems(star)
-            }
-        }
     }
 
     upToParent = () => {
@@ -42,16 +41,14 @@ class MainLayout extends Component {
     };
 
     handleStarredFiles = (file) => {
-        let starredFiles = [];
-        if (localStorage.starredItems) {
-            starredFiles = JSON.parse(localStorage.getItem('starredItems'));
-        }
+        //console.log(file);
+
         if (file.starred) {
-            let newStarredArray = starredFiles.filter(someFile => someFile.id !== file.id);
+            let newStarredArray = this.props.starredFromStore.filter(someFile => someFile!== file.path_lower);
             console.log(newStarredArray);
             localStorage.setItem('starredItems', JSON.stringify(newStarredArray))
         } else {
-            const newStarredArray = [...starredFiles, file];
+            const newStarredArray = [...this.props.starredFromStore, file.path_lower];
             localStorage.setItem('starredItems', JSON.stringify(newStarredArray))
         }
 
@@ -74,15 +71,13 @@ class MainLayout extends Component {
                         {currentPath !== '/' && <button className="btn" onClick={this.upToParent}>Up to parent</button>}
                         <ShowContent
                             onFolderClick={this.handleNavigation}
-                            files={files[currentPath]}
-                            starredItems={starredItems}
+                            files={files}
                             onStarClick={this.handleStarredFiles}
                         />
                         <Upload/>
                         <ShowContent
                             onFolderClick={this.handleNavigation}
                             files={starredItems}
-                            starredItems={starredItems}
                             onStarClick={this.handleStarredFiles}
                         />
                     </F>
@@ -92,19 +87,62 @@ class MainLayout extends Component {
     }
 };
 
+const mapStateToProps = state => {
+
+    const currentFiles = state.files[state.currentPath] || [];
+    const starredItems = state.starredItems;
+    const newStarredItems = [];
+
+    const newFileList = currentFiles
+        .map(file => {
+
+
+            if (starredItems.includes(file.path_lower)){
+
+                const newFile = {
+                    ...file,
+                    starred: true
+                };
+                newStarredItems.push(newFile);
+                return newFile
+            } else {
+                return file;
+            }
+        });
+
+
+
+
+
+    return {
+        token: state.token,
+        files: newFileList,
+        starredFromStore: state.starredItems,
+        starredItems: newStarredItems,
+        currentPath: state.currentPath
+    }
+};
+
 
 export default connect(
-    state => ({
-        token: state.token,
-        files: state.files,
-        currentPath: state.currentPath,
-        starredItems: state.starredItems
-    }),
+   mapStateToProps,
+
+    // state => (
+    //     {
+    //     token: state.token,
+    //     files: state.files,
+    //     currentPath: state.currentPath,
+    //     starredItems: state.starredItems,
+    //
+    // }),
     {
         setToken,
         setCurrentPath,
         getFilesFromDropbox,
         logOut,
-        handleStarredItems
+        handleStarredItems,
+        loadStarredFilesFromStorage,
     }
 )(MainLayout);
+
+
