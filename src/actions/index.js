@@ -42,10 +42,6 @@ export const removeFromStarredItems = (file) => ({
     file
 });
 
-export const loadStarredFilesFromStorage = (files) => ({
-    type: LOAD_STARED_FILES_FROM_STORAGE,
-    files
-});
 
 // action creator: getFilesFromDropbox
 export const getFilesFromDropbox = (newPath) => (dispatch, getState) => {
@@ -65,7 +61,7 @@ export const getFilesFromDropbox = (newPath) => (dispatch, getState) => {
 };
 
 // action creator: saveTheToken
-export const saveToken = () => (dispatch, getState) => {
+export const saveToken = () => (dispatch) => {
 
     let token;
     if (localStorage.getItem('token')) {
@@ -89,7 +85,7 @@ export const saveToken = () => (dispatch, getState) => {
 
 };
 
-export const logOut = () => (dispatch, getState) => {
+export const logOut = () => (dispatch) => {
 
     localStorage.removeItem('token');
     dispatch(setToken(''));
@@ -98,7 +94,7 @@ export const logOut = () => (dispatch, getState) => {
 
 };
 
-export const uploadFile = (file, path) => (dispatch, getState) => {
+export const uploadFile = (file, path) => (dispatch) => {
 
     getDropbox().filesUpload({path: path + file.name, contents: file})
         .then(function (response) {
@@ -111,14 +107,10 @@ export const uploadFile = (file, path) => (dispatch, getState) => {
 
 };
 
-export const handleStarredItems = (file) => (dispatch, getState) => {
-
+export const handleStarredItems = (file) => (dispatch) => {
     if (file.starred === true) {
         dispatch(removeFromStarredItems(file))
     } else {
         dispatch(addToStarredItems(file));
     }
-
-    //localStorage.setItem('starredItems', JSON.stringify(getState().starredItems))
-
 };

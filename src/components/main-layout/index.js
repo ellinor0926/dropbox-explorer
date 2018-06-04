@@ -5,9 +5,7 @@ import ShowContent from '../showContent';
 import {
     getFilesFromDropbox,
     handleStarredItems,
-    loadStarredFilesFromStorage,
     logOut,
-    setCurrentPath,
     setToken
 } from "../../actions";
 import Crumbs from "../crumbs";
@@ -127,22 +125,10 @@ const mapStateToProps = state => {
 export default connect(
    mapStateToProps,
 
-    // state => (
-    //     {
-    //     token: state.token,
-    //     files: state.files,
-    //     currentPath: state.currentPath,
-    //     starredItems: state.starredItems,
-    //
-    // }),
     {
         setToken,
-        setCurrentPath,
         getFilesFromDropbox,
         logOut,
         handleStarredItems,
-        loadStarredFilesFromStorage,
     }
 )(MainLayout);
-
-
