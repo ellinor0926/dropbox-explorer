@@ -30,7 +30,6 @@ export default function ShowContent({onFolderClick, files, starredItems, onStarC
                                     folderClick={() => onFolderClick(file.path_lower)}
                                     file={file}
                                     key={i}
-                                    star={starredItems.includes(file)}
                                     starClick={() => onStarClick(file)}
                                 />
                             )}

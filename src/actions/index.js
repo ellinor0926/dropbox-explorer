@@ -8,6 +8,7 @@ export const SET_CURRENT_PATH = 'SET_CURRENT_PATH';
 export const UPLOAD_FILE_TO_STATE = 'UPLOAD_FILE_TO_STATE';
 export const ADD_TO_STARRED_ITEMS = 'ADD_TO_STARRED_ITEMS';
 export const REMOVE_FROM_STARRED_ITEMS = 'REMOVE_FROM_STARRED_ITEMS';
+export const LOAD_STARED_FILES_FROM_STORAGE = 'LOAD_STARED_FILES_FROM_STORAGE';
 
 export const setToken = token => ({
     type: SET_TOKEN,
@@ -41,6 +42,10 @@ export const removeFromStarredItems = (file) => ({
     file
 });
 
+export const loadStarredFilesFromStorage = (files) => ({
+    type: LOAD_STARED_FILES_FROM_STORAGE,
+    files
+});
 
 // action creator: getFilesFromDropbox
 export const getFilesFromDropbox = (newPath) => (dispatch, getState) => {
@@ -111,8 +116,9 @@ export const handleStarredItems = (file) => (dispatch, getState) => {
     if (file.starred === true) {
         dispatch(removeFromStarredItems(file))
     } else {
-        dispatch(addToStarredItems(file))
+        dispatch(addToStarredItems(file));
     }
+
     //localStorage.setItem('starredItems', JSON.stringify(getState().starredItems))
 
 };
