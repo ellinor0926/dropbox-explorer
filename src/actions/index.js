@@ -15,29 +15,29 @@ export const setToken = token => ({
     token
 });
 
-export const saveFiles = (files, currentPath) => ({
+ const saveFiles = (files, currentPath) => ({
     type: SAVE_FILES,
     files,
     currentPath
 });
 
-export const setCurrentPath = (path) => ({
+ const setCurrentPath = (path) => ({
     type: SET_CURRENT_PATH,
     path
 });
 
-export const uploadFileToState = (file, path) => ({
+ const uploadFileToState = (file, path) => ({
     type: UPLOAD_FILE_TO_STATE,
     file,
     path
 });
 
-export const addToStarredItems = (file) => ({
+ const addToStarredItems = (file) => ({
     type: ADD_TO_STARRED_ITEMS,
     file
 });
 
-export const removeFromStarredItems = (file) => ({
+ const removeFromStarredItems = (file) => ({
     type: REMOVE_FROM_STARRED_ITEMS,
     file
 });
@@ -77,11 +77,11 @@ export const saveToken = () => (dispatch) => {
         // After saving the token - remove the token from URL
         window.location.replace('http://localhost:3000');
     }
-
     createDropbox(token);
 
     dispatch(getFilesFromDropbox('/'));
     dispatch(setToken(token));
+
 
 };
 
@@ -90,7 +90,7 @@ export const logOut = () => (dispatch) => {
     localStorage.removeItem('token');
     dispatch(setToken(''));
     getDropbox().authTokenRevoke()
-        .then(() => console.log('loggar ut'));
+        .then(() => console.log('Logging out user'));
 
 };
 

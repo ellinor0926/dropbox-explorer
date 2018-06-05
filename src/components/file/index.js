@@ -8,6 +8,7 @@ export default function File({file, fileClick, folderClick, starClick}) {
     let starIcon;
     let folder = file['.tag'] === 'folder';
 
+    // Check what icon (or image) to display
     if (folder) {
         itemIcon += 'fa-folder-open'
     } else {
@@ -18,11 +19,13 @@ export default function File({file, fileClick, folderClick, starClick}) {
         }
     }
 
+    // Check if item is starred or not
     if (file.starred) {
         starIcon = 'fas fa-star fa-sm'
     } else {
         starIcon = 'far fa-star fa-sm'
     }
+
     return (
         <div className={style.container}>
             <span onClick={folder ? folderClick : fileClick}>
