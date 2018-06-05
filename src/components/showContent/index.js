@@ -2,7 +2,7 @@ import React from "react";
 import File from "../file";
 import {getDropbox} from "../../dropboxShared";
 
-
+import style from './ShowContent.css'
 
 export default function ShowContent({onFolderClick, files, starredItems, onStarClick}) {
 
@@ -20,8 +20,10 @@ export default function ShowContent({onFolderClick, files, starredItems, onStarC
         files
             ?
             (
-                <div>
-                    <p>All files fetched!</p>
+                <div className={style.container}>
+                    <div className={style.header}>
+                        <span>Name</span><span className={style.metaCol}>Modified</span><span className={style.metaCol}>Size</span><span> </span>
+                    </div>
 
                     {files.map((file, i) =>
 

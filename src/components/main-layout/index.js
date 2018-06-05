@@ -5,9 +5,7 @@ import ShowContent from '../showContent';
 import {
     getFilesFromDropbox,
     handleStarredItems,
-    loadStarredFilesFromStorage,
     logOut,
-    setCurrentPath,
     setToken
 } from "../../actions";
 import Crumbs from "../crumbs";
@@ -41,8 +39,6 @@ class MainLayout extends Component {
     };
 
     handleStarredFiles = (file) => {
-        //console.log(file);
-
         if (file.starred) {
             let newStarredArray = this.props.starredFromStore.filter(someFile => someFile!== file.path_lower);
             console.log(newStarredArray);
@@ -55,7 +51,6 @@ class MainLayout extends Component {
         this.props.handleStarredItems(file);
 
     };
-
 
     render() {
         const {currentPath, files, token, starredItems } = this.props;
@@ -110,10 +105,6 @@ const mapStateToProps = state => {
             }
         });
 
-
-
-
-
     return {
         token: state.token,
         files: newFileList,
@@ -123,26 +114,13 @@ const mapStateToProps = state => {
     }
 };
 
-
 export default connect(
    mapStateToProps,
 
-    // state => (
-    //     {
-    //     token: state.token,
-    //     files: state.files,
-    //     currentPath: state.currentPath,
-    //     starredItems: state.starredItems,
-    //
-    // }),
     {
         setToken,
-        setCurrentPath,
         getFilesFromDropbox,
         logOut,
         handleStarredItems,
-        loadStarredFilesFromStorage,
     }
 )(MainLayout);
-
-

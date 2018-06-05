@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {getFilesFromDropbox, saveToken} from "../../actions";
+import {saveToken} from "../../actions";
 
 import Dropbox from "dropbox";
 
@@ -37,7 +37,6 @@ export default connect(
     }),
 
     {
-        getFilesFromDropbox,
         saveToken
     }
 )(Login);
