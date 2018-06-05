@@ -1,30 +1,41 @@
 import React from 'react';
 
+import ImageThumbnail from './image.js'
+import style from './FileStyle.css'
 
-export default function File({file, fileClick, folderClick, star, starClick}) {
-    let itemIcon = 'fas ';
+export default function File({file, fileClick, folderClick, starClick}) {
+    let itemIcon = 'far ';
     let starIcon;
+    let folder = file['.tag'] === 'folder';
 
-    if (file['.tag'] === 'folder') {
-        itemIcon += 'fa-folder'
+    if (folder) {
+        itemIcon += 'fa-folder-open'
     } else {
-        itemIcon += 'fa-file'
+        if(file.path_lower.includes('jpg')) {
+            itemIcon = 'image';
+        } else {
+            itemIcon += 'fa-file'
+        }
     }
 
     if (file.starred) {
-        starIcon = 'fas fa-star'
+        starIcon = 'fas fa-star fa-sm'
     } else {
-        starIcon = 'far fa-star'
+        starIcon = 'far fa-star fa-sm'
     }
     return (
-        <div>
-            <span onClick={file['.tag'] === 'folder' ? folderClick : fileClick}>
-                <i className={itemIcon}></i>
-                {file.name}
+        <div className={style.container}>
+            <span onClick={folder ? folderClick : fileClick}>
+                <span className={folder ? style.folderIcon : style.fileIcon}>
+                    {itemIcon === 'image' && <ImageThumbnail file={file} />}
+                    <i className={itemIcon}></i>
+                </span>
+               <span>{file.name}</span>
             </span>
-            <i className={starIcon} onClick={starClick}></i>
-            {file['.tag'] === 'file' && <span>{file.client_modified}</span>}
-            {file['.tag'] === 'file' && <span>{file.size}</span>}
+
+            {folder ? <span className={style.metaData}> - </span> : <span className={style.metaData}>{new Date(file.client_modified).toLocaleDateString() }</span>}
+            {folder ? <span className={style.metaData}> - </span> : <span className={style.metaData}>{file.size / 1000}kb</span>}
+           <div className={style.starIcon}><i className={starIcon} onClick={starClick}></i></div>
         </div>
     )
 

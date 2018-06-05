@@ -39,8 +39,6 @@ class MainLayout extends Component {
     };
 
     handleStarredFiles = (file) => {
-        //console.log(file);
-
         if (file.starred) {
             let newStarredArray = this.props.starredFromStore.filter(someFile => someFile!== file.path_lower);
             console.log(newStarredArray);
@@ -53,7 +51,6 @@ class MainLayout extends Component {
         this.props.handleStarredItems(file);
 
     };
-
 
     render() {
         const {currentPath, files, token, starredItems } = this.props;
@@ -108,10 +105,6 @@ const mapStateToProps = state => {
             }
         });
 
-
-
-
-
     return {
         token: state.token,
         files: newFileList,
@@ -120,7 +113,6 @@ const mapStateToProps = state => {
         currentPath: state.currentPath
     }
 };
-
 
 export default connect(
    mapStateToProps,

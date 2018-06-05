@@ -1,0 +1,32 @@
+:local(.container) {
+    padding: 0.5em;
+    border-bottom: 1px solid #e8e8e8;
+    /*display: flex;*/
+    /*justify-content: space-between;*/
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 30px;
+    grid-template-rows: auto;
+}
+
+:local(.starIcon) {
+    color: gold;
+    cursor: pointer;
+}
+
+:local(.folderIcon) {
+    color: gold;
+    margin: 5px;
+}
+
+:local(.fileIcon) {
+    color: silver;
+    margin: 5px;
+}
+
+:local(.metaData) {
+    font-size: small;
+    color: lightgray;
+    font-style: italic;
+    text-align: center;
+}
+

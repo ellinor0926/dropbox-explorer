@@ -1,0 +1,18 @@
+:local(.container) {
+    max-width: 70vw;
+    padding: 0.5em;
+}
+
+:local(.header) {
+    /*display: flex;*/
+    /*justify-content: space-between;*/
+    padding: 0.5em;
+
+    border-bottom: 1px solid #e8e8e8;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 30px;
+}
+
+:local(.metaCol) {
+    text-align: center;
+}
