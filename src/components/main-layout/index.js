@@ -1,4 +1,4 @@
-import React, {Component, Fragment as F} from 'react';
+import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import Login from '../login';
 import ShowContent from '../showContent';
@@ -10,9 +10,15 @@ import {
 } from "../../actions";
 import Crumbs from "../crumbs";
 import Upload from "../upload";
+import style from './main-layout.css'
+import { CSSTransitionGroup } from 'react-transition-group';
 
 
 class MainLayout extends Component {
+
+    state = {
+        currentView: 'home'
+    };
 
     componentDidMount() {}
 
@@ -55,15 +61,41 @@ class MainLayout extends Component {
 
     };
 
+    handleListClick = (clicked) => {
+
+        this.setState(prevState =>({
+            currentView: clicked
+        }));
+
+    };
+
     render() {
         const {currentPath, files, token, starredItems } = this.props;
 
         return (
-            <div>
+            <div className={style.mainGrid}>
+                <div className={style.sideBar}>
+                    <CSSTransitionGroup
+                        transitionName="fade"
+                        transitionEnterTimeout={500}
+                        transitionLeaveTimeout={500}
+                    >
+                    <ul>
+                        <li onClick={() => this.handleListClick('starred')} className={(this.state.currentView === 'starred' ? 'active' : '')}>
+                            <i className="fas fa-star"></i>
+                        </li>
+                        <li onClick={() => this.handleListClick('upload')} className={(this.state.currentView === 'upload' ? 'active' : '')}>Upload</li>
+                        <li onClick={() => this.handleListClick('home')} className={(this.state.currentView === 'home' ? 'active' : '')}>Home</li>
+                        <li onClick={() => this.handleListClick('sign-out')} className={(this.state.currentView === 'sign-out' ? 'active' : '')}>Sign Out</li>
+                    </ul>
+                    </CSSTransitionGroup>
+                </div>
                 {!token ? (
-                    <Login/>
+                    <div className={style.mainArea}>
+                        <Login/>
+                    </div>
                 ) : (
-                    <F>
+                    <div className={style.mainArea}>
                         <button onClick={this.signOut} className="btn btn-lg">Sign Out</button>
                         {currentPath !== '/' && <Crumbs onClick={this.handleNavigation} currentPath={currentPath}/>}
                         {currentPath !== '/' && <button className="btn" onClick={this.upToParent}>Up to parent</button>}
@@ -80,7 +112,7 @@ class MainLayout extends Component {
                             files={starredItems}
                             onStarClick={this.handleStarredFiles}
                         />
-                    </F>
+                    </div>
                 )}
             </div>
         );

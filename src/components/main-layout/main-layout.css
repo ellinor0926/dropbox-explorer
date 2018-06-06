@@ -1,0 +1,53 @@
+
+:local(.mainGrid) {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}
+
+:local(.mainArea) {
+    grid-column: 2;
+}
+
+:local(.sideBar) {
+    background-color: pink;
+    grid-column: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+:local(.sideBar ul) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+:local(.sideBar li) {
+    font-size: 25px;
+     list-style: none;
+     color: white;
+     padding-top: 5px;
+     padding-bottom: 5px;
+     padding-right: 5px;
+     text-align: right;
+     width: 100px;
+     height: 30px;
+    border-radius: 10px 0 0 10px;
+    background: linear-gradient(to right, rgba(255, 250, 254, 0) 50%, #ffffff 50%);
+    background-size: 200% 100%;
+    background-position:left bottom;
+    transition:all 250ms ease-out;
+
+ }
+
+
+
+:local(.sideBar a) {
+    text-decoration: none;
+}
+
+.active {
+    box-shadow: inset 0 4px 3px -3px  #000000;
+    background-position:right bottom !important;
+    color: black !important;
+}
