@@ -1,26 +1,31 @@
 import React from 'react'
+
+import style from './Crumbs.css';
+
 export default function Crumbs({onClick, currentPath}) {
 
-    const paths = currentPath.split('/');
-
+    let paths = currentPath.split('/').filter(path => path !== '');
+    paths.unshift('/');
 
     const goToPath = (path) => {
-        console.log(paths);
        const newPath = currentPath.split(path)[0] + path;
        onClick(newPath);
     };
 
     return (
 
-        <div>
-            {paths.map((path, i) => {
-                if (i === 0) {
-                    return <span key={i} onClick={() => goToPath(path)}>Home</span>
-                } else {
-                    return <span key={i} onClick={() => goToPath(path)}>/{path}</span>
-                }
-
+        <ul className={style.breadCrumbs}>
+            {paths.map((path, index) => {
+                    return <li
+                        key={index}
+                        onClick={() => goToPath(path)}
+                    >
+                        {index === 0
+                            ? <i className="fas fa-home fa-lg"></i>
+                            : path.toUpperCase()}
+                    </li>
             })}
-        </div>
+        </ul>
+
     )
 }

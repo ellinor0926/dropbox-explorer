@@ -77,7 +77,6 @@ export const saveToken = () => (dispatch) => {
         // After saving the token - remove the token from URL
         window.location.replace('http://localhost:3000');
     }
-
     createDropbox(token);
 
     dispatch(getFilesFromDropbox('/'));

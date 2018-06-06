@@ -1,0 +1,13 @@
+:local(.breadCrumbs) {
+    display: flex;
+}
+
+:local(li) {
+    list-style: none;
+}
+
+:local(li+li:before) {
+    padding: 8px;
+    color: black;
+    content: "|";
+}

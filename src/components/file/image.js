@@ -10,7 +10,7 @@ export default function ImageThumbnail({file}) {
             const img = document.getElementById(`${fileName}`);
             img.addEventListener('load', () => URL.revokeObjectURL(imageUrl));
             document.getElementById(`${fileName}`).src = imageUrl;
-        });
+        }).catch(err => console.log(err));
 
     return (
         <img id={file.name} src="" alt=""/>
