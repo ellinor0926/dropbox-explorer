@@ -13,12 +13,13 @@ import Upload from "../upload";
 import style from './main-layout.css'
 import { CSSTransitionGroup } from 'react-transition-group';
 import {getDropbox} from "../../dropboxShared";
+import Search from "../search"
 
 
 class MainLayout extends Component {
 
     state = {
-        currentView: 'home'
+    currentView: 'home',
     };
 
     componentDidMount() {
@@ -67,10 +68,11 @@ class MainLayout extends Component {
     handleListClick = (clicked) => {
 
         this.setState(prevState =>({
-            currentView: clicked
+            currentView: clicked,
         }));
 
     };
+
 
     render() {
         const {currentPath, files, token, starredItems } = this.props;
@@ -92,11 +94,13 @@ class MainLayout extends Component {
                         transitionEnterTimeout={500}
                         transitionLeaveTimeout={500}
                     >
+
                     <ul>
                         <li onClick={() => this.handleListClick('starred')} className={(this.state.currentView === 'starred' ? 'active' : '')}>
                             <i className="fas fa-star"></i>
                         </li>
                         <li onClick={() => this.handleListClick('upload')} className={(this.state.currentView === 'upload' ? 'active' : '')}>Upload</li>
+                        <li onClick={() => this.handleListClick('search')} className={(this.state.currentView === 'search' ? 'active' : '')}>Search</li>
                         <li onClick={() => this.handleListClick('home')} className={(this.state.currentView === 'home' ? 'active' : '')}>Home</li>
                         <li onClick={() => this.handleListClick('sign-out')} className={(this.state.currentView === 'sign-out' ? 'active' : '')}>Sign Out</li>
                     </ul>
@@ -112,6 +116,9 @@ class MainLayout extends Component {
                         <button onClick={this.signOut} className="btn btn-lg">Sign Out</button>
                         {currentPath !== '/' && <Crumbs onClick={this.handleNavigation} currentPath={currentPath}/>}
                         {currentPath !== '/' && <button className="btn" onClick={this.upToParent}>Up to parent</button>}
+                        <div className={this.state.currentView === 'search' ? 'showSearch' : 'hideSearch'}>
+                            <Search onFolderClick={this.handleNavigation} onStarClick={this.handleStarredFiles}/>
+                        </div>
                         {this.state.currentView === 'home' && <F>
                             <h1> Dropbox Explorer</h1>
                             <ShowContent

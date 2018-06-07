@@ -63,3 +63,11 @@
     background-position:right bottom !important;
     color: black !important;
 }
+
+.hideSearch {
+    display: none;
+}
+
+.showSearch {
+    display: block;
+}
