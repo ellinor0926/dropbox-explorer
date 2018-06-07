@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment as F} from 'react';
 import {connect} from 'react-redux';
 import Login from '../login';
 import ShowContent from '../showContent';
@@ -12,6 +12,7 @@ import Crumbs from "../crumbs";
 import Upload from "../upload";
 import style from './main-layout.css'
 import { CSSTransitionGroup } from 'react-transition-group';
+import {getDropbox} from "../../dropboxShared";
 
 
 class MainLayout extends Component {
@@ -20,7 +21,9 @@ class MainLayout extends Component {
         currentView: 'home'
     };
 
-    componentDidMount() {}
+    componentDidMount() {
+
+    }
 
     upToParent = () => {
         // Splits up the current path and removes last element
@@ -72,9 +75,18 @@ class MainLayout extends Component {
     render() {
         const {currentPath, files, token, starredItems } = this.props;
 
+        if(token && !this.state.userName) {
+            getDropbox().usersGetCurrentAccount()
+                .then(response => this.setState(prevState => ({
+                    userName: response.name.given_name
+                })))
+
+        }
+
         return (
             <div className={style.mainGrid}>
                 <div className={style.sideBar}>
+                    {this.state.userName && <h1 className={style.userName}>Welcome {this.state.userName}! Let's start sharing.</h1>}
                     <CSSTransitionGroup
                         transitionName="fade"
                         transitionEnterTimeout={500}
@@ -95,23 +107,28 @@ class MainLayout extends Component {
                         <Login/>
                     </div>
                 ) : (
+
                     <div className={style.mainArea}>
                         <button onClick={this.signOut} className="btn btn-lg">Sign Out</button>
                         {currentPath !== '/' && <Crumbs onClick={this.handleNavigation} currentPath={currentPath}/>}
                         {currentPath !== '/' && <button className="btn" onClick={this.upToParent}>Up to parent</button>}
-
-                        <ShowContent
+                        {this.state.currentView === 'home' && <F>
+                            <h1> Dropbox Explorer</h1>
+                            <ShowContent
                             onFolderClick={this.handleNavigation}
                             files={files}
                             onStarClick={this.handleStarredFiles}
-                        />
-                        <Upload/>
-
-                        <ShowContent
+                            />
+                        </F>}
+                        {this.state.currentView === 'upload' && <F><h1>Upload Files</h1><Upload/></F>}
+                        {this.state.currentView === 'starred' &&  <F>
+                            <h1>Starred Files</h1>
+                            <ShowContent
                             onFolderClick={this.handleNavigation}
                             files={starredItems}
                             onStarClick={this.handleStarredFiles}
                         />
+                        </F>}
                     </div>
                 )}
             </div>

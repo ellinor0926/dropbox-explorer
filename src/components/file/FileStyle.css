@@ -14,13 +14,16 @@
 }
 
 :local(.folderIcon) {
-    color: gold;
-    margin: 5px;
+    color: #d088e2;
+    font-size: 25px;
+    padding-right: 5px;
 }
 
 :local(.fileIcon) {
-    color: silver;
+    color: #c2b8e2;
     margin: 5px;
+    font-size: 25px;
+    padding-right: 5px;
 }
 
 :local(.metaData) {
