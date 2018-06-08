@@ -23,7 +23,7 @@ class Login extends Component {
         return (
             <div className='loginLayout'>
                 <img className='shareLogo' src={logo} alt=""/>
-                <h1>Welcome</h1>
+                <h1 className='shareTitle'>S H A R E</h1>
                 <p>To use Share you have to sign in with Dropbox</p>
                 <a href={authUrl}>Click here to authenticate</a>
             </div>

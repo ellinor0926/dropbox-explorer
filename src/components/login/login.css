@@ -1,8 +1,11 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Teko');
+
 .loginLayout {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-left: -12%;
     height: 100vh;
 }
 
@@ -10,3 +13,14 @@
     width: 20%;
     height: auto;
 }
+
+.shareTitle {
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-size: 400%;
+    padding: 8px;
+    margin: 8px;
+    background: linear-gradient(to right, #b56ec7, #c2b8e2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
