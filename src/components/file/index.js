@@ -10,12 +10,12 @@ export default function File({file, fileClick, folderClick, starClick}) {
 
     // Check what icon (or image) to display
     if (folder) {
-        itemIcon += 'fa-folder-open'
+        itemIcon = 'fas fa-folder'
     } else {
         if(file.path_lower.includes('jpg')) {
             itemIcon = 'image';
         } else {
-            itemIcon += 'fa-file'
+            itemIcon = 'fas fa-file'
         }
     }
 

@@ -10,11 +10,21 @@ import {
 } from "../../actions";
 import Crumbs from "../crumbs";
 import Upload from "../upload";
+import style from './main-layout.css'
+import { CSSTransitionGroup } from 'react-transition-group';
+import {getDropbox} from "../../dropboxShared";
+import Search from "../search"
 
 
 class MainLayout extends Component {
 
-    componentDidMount() {}
+    state = {
+    currentView: 'home',
+    };
+
+    componentDidMount() {
+
+    }
 
     upToParent = () => {
         // Splits up the current path and removes last element
@@ -55,32 +65,83 @@ class MainLayout extends Component {
 
     };
 
+    handleListClick = (clicked) => {
+        if (clicked === 'search') {
+            this.setState(prevState =>({
+                searching: true,
+            }));
+        } else {
+            this.setState(prevState =>({
+                currentView: clicked,
+                searching: false
+            }));
+        }
+    };
+
+
     render() {
         const {currentPath, files, token, starredItems } = this.props;
 
+        if(token && !this.state.userName) {
+            getDropbox().usersGetCurrentAccount()
+                .then(response => this.setState(prevState => ({
+                    userName: response.name.given_name
+                })))
+
+        }
+
         return (
-            <div>
+            <div className={style.mainGrid}>
+                <div className={style.sideBar}>
+                    {this.state.userName && <h1 className={style.userName}>Welcome {this.state.userName}! Let's start sharing.</h1>}
+                    <CSSTransitionGroup
+                        transitionName="fade"
+                        transitionEnterTimeout={500}
+                        transitionLeaveTimeout={500}
+                    >
+
+                    <ul>
+                        <li onClick={() => this.handleListClick('starred')} className={(this.state.currentView === 'starred' ? 'active' : '')}>
+                            <i className="fas fa-star"></i>
+                        </li>
+                        <li onClick={() => this.handleListClick('upload')} className={(this.state.currentView === 'upload' ? 'active' : '')}>Upload</li>
+
+                        <li onClick={() => this.handleListClick('home')} className={(this.state.currentView === 'home' ? 'active' : '')}>Home</li>
+                        <li onClick={() => this.handleListClick('sign-out')} className={(this.state.currentView === 'sign-out' ? 'active' : '')}>Sign Out</li>
+                    </ul>
+                    </CSSTransitionGroup>
+                </div>
                 {!token ? (
-                    <Login/>
+                    <div className={style.mainArea}>
+                        <Login/>
+                    </div>
                 ) : (
-                    <F>
+
+                    <div className={style.mainArea}>
                         <button onClick={this.signOut} className="btn btn-lg">Sign Out</button>
                         {currentPath !== '/' && <Crumbs onClick={this.handleNavigation} currentPath={currentPath}/>}
                         {currentPath !== '/' && <button className="btn" onClick={this.upToParent}>Up to parent</button>}
-
-                        <ShowContent
+                        <div className='showSearch'>
+                            <Search onFolderClick={this.handleNavigation} onStarClick={this.handleStarredFiles}/>
+                        </div>
+                        {this.state.currentView === 'home' && <F>
+                            <h1> Dropbox Explorer</h1>
+                            <ShowContent
                             onFolderClick={this.handleNavigation}
                             files={files}
                             onStarClick={this.handleStarredFiles}
-                        />
-                        <Upload/>
-
-                        <ShowContent
+                            />
+                        </F>}
+                        {this.state.currentView === 'upload' && <F><h1>Upload Files</h1><Upload/></F>}
+                        {this.state.currentView === 'starred' &&  <F>
+                            <h1>Starred Files</h1>
+                            <ShowContent
                             onFolderClick={this.handleNavigation}
                             files={starredItems}
                             onStarClick={this.handleStarredFiles}
                         />
-                    </F>
+                        </F>}
+                    </div>
                 )}
             </div>
         );

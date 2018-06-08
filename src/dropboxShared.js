@@ -9,6 +9,5 @@ export const createDropbox = accessToken => {
 
 // invoke when calling dropbox API.
 export const getDropbox = () => {
-    console.log('Current user is ',instance);
     return instance;
 };
