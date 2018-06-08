@@ -1,0 +1,29 @@
+:local(.showSearchFiles) {
+    display: flex;
+    position: absolute;
+    background: white;
+    border: solid 1px #d088e2;
+    border-top: 0;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.54);
+    width: 40vw;
+}
+
+:local(.showSearchFiles i) {
+   padding: 5px 15px 0 0;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+:local(.searchBar) {
+    box-shadow: inset 5px 5px 3px -3px rgba(0, 0, 0, 0.32);
+    border: none;
+    background: whitesmoke;
+    padding: 10px;
+}
+
+:local(.searchButton) {
+    border: none;
+    background: #c0c9df;
+    padding: 10px;
+    cursor: pointer;
+}

@@ -66,11 +66,16 @@ class MainLayout extends Component {
     };
 
     handleListClick = (clicked) => {
-
-        this.setState(prevState =>({
-            currentView: clicked,
-        }));
-
+        if (clicked === 'search') {
+            this.setState(prevState =>({
+                searching: true,
+            }));
+        } else {
+            this.setState(prevState =>({
+                currentView: clicked,
+                searching: false
+            }));
+        }
     };
 
 
@@ -100,7 +105,7 @@ class MainLayout extends Component {
                             <i className="fas fa-star"></i>
                         </li>
                         <li onClick={() => this.handleListClick('upload')} className={(this.state.currentView === 'upload' ? 'active' : '')}>Upload</li>
-                        <li onClick={() => this.handleListClick('search')} className={(this.state.currentView === 'search' ? 'active' : '')}>Search</li>
+
                         <li onClick={() => this.handleListClick('home')} className={(this.state.currentView === 'home' ? 'active' : '')}>Home</li>
                         <li onClick={() => this.handleListClick('sign-out')} className={(this.state.currentView === 'sign-out' ? 'active' : '')}>Sign Out</li>
                     </ul>
@@ -116,7 +121,7 @@ class MainLayout extends Component {
                         <button onClick={this.signOut} className="btn btn-lg">Sign Out</button>
                         {currentPath !== '/' && <Crumbs onClick={this.handleNavigation} currentPath={currentPath}/>}
                         {currentPath !== '/' && <button className="btn" onClick={this.upToParent}>Up to parent</button>}
-                        <div className={this.state.currentView === 'search' ? 'showSearch' : 'hideSearch'}>
+                        <div className='showSearch'>
                             <Search onFolderClick={this.handleNavigation} onStarClick={this.handleStarredFiles}/>
                         </div>
                         {this.state.currentView === 'home' && <F>
