@@ -9,7 +9,8 @@ export default class Search extends Component {
     state = {
         search: '',
         foundFiles: [],
-        error: ''
+        error: '',
+        showSearch: false
     };
 
     componentDidMount() {}
@@ -49,7 +50,8 @@ export default class Search extends Component {
             })
             .then(() => {
                 this.setState( prevState => ({
-                    currentlySearching: false
+                    currentlySearching: false,
+                    showSearch: true
                 }));
             })
             .catch(error => console.log(error))
@@ -57,8 +59,7 @@ export default class Search extends Component {
 
     closeSearchBox = () => {
         this.setState({
-            currentlySearching: false,
-            foundFiles: []
+            showSearch: false
         });
     };
 
@@ -68,15 +69,24 @@ export default class Search extends Component {
         }
     };
 
+    showSearchResults = () => {
+        this.setState(prevState =>({
+            showSearch: !prevState.showSearch
+        }));
+    };
+
     render() {
 
         return (
             <div>
                 <input className={style.searchBar} type="text" onChange={this.handleChange} onKeyUp={this.inputSearch} placeholder="Search..."></input>
                 <button className={style.searchButton} onClick={() => this.handleSearch()}>Search</button>
+                <div>
+                { this.state.foundFiles.length > 0 && <button onClick={this.showSearchResults}>Show results</button>}
+                </div>
                 {this.state.currentlySearching && <p>Searching...</p>}
                 {this.state.error && <p>{this.state.error}</p>}
-                {this.state.foundFiles.length > 0 &&
+                {this.state.showSearch &&
                 <div className={style.showSearchFiles}>
 
                     <ShowContent

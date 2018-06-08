@@ -12,7 +12,7 @@ import {
 import Crumbs from "../crumbs";
 import Upload from "../upload";
 import style from './main-layout.css'
-import { CSSTransitionGroup } from 'react-transition-group';
+import {CSSTransitionGroup} from 'react-transition-group';
 import {getDropbox} from "../../dropboxShared";
 import Search from "../search"
 
@@ -20,7 +20,7 @@ import Search from "../search"
 class MainLayout extends Component {
 
     state = {
-    currentView: 'home',
+        currentView: 'home',
     };
 
     componentDidMount() {
@@ -45,15 +45,22 @@ class MainLayout extends Component {
         this.props.getFilesFromDropbox(path)
     };
 
-    signOut = () => {
+    signOut = (value) => {
         // Signs the user out
-        this.props.logOut();
+        if (value === 'logout') {
+            this.props.logOut();
+        } else {
+            this.setState({
+                currentView: 'home'
+            })
+        }
+
     };
 
     handleStarredFiles = (file) => {
         // If the file is already starred, we want the click to remove it from local storage
         if (file.starred) {
-            let newStarredArray = this.props.starredFromStore.filter(someFile => someFile!== file.path_lower);
+            let newStarredArray = this.props.starredFromStore.filter(someFile => someFile !== file.path_lower);
             console.log(newStarredArray);
             localStorage.setItem('starredItems', JSON.stringify(newStarredArray))
         }  // If the file ISN'T starred, we want the click to add it to local storage
@@ -68,11 +75,11 @@ class MainLayout extends Component {
 
     handleListClick = (clicked) => {
         if (clicked === 'search') {
-            this.setState(prevState =>({
+            this.setState(prevState => ({
                 searching: true,
             }));
         } else {
-            this.setState(prevState =>({
+            this.setState(prevState => ({
                 currentView: clicked,
                 searching: false
             }));
@@ -81,9 +88,9 @@ class MainLayout extends Component {
 
 
     render() {
-        const {currentPath, files, token, starredItems } = this.props;
+        const {currentPath, files, token, starredItems} = this.props;
 
-        if(token && !this.state.userName) {
+        if (token && !this.state.userName) {
             getDropbox().usersGetCurrentAccount()
                 .then(response => this.setState(prevState => ({
                     userName: response.name.given_name
@@ -94,22 +101,30 @@ class MainLayout extends Component {
         return (
             <div className={style.mainGrid}>
                 <div className={style.sideBar}>
-                    {this.state.userName && <h1 className={style.userName}>Welcome {this.state.userName}! Let's start sharing.</h1>}
+                    {this.state.userName &&
+                    <h1 className={style.userName}>Welcome {this.state.userName}! Let's start sharing.</h1>}
                     <CSSTransitionGroup
                         transitionName="fade"
                         transitionEnterTimeout={500}
                         transitionLeaveTimeout={500}
                     >
 
-                    <ul>
-                        <li onClick={() => this.handleListClick('starred')} className={(this.state.currentView === 'starred' ? 'active' : '')}>
-                            <i className="fas fa-star"></i>
-                        </li>
-                        <li onClick={() => this.handleListClick('upload')} className={(this.state.currentView === 'upload' ? 'active' : '')}>Upload</li>
+                        <ul>
+                            <li onClick={() => this.handleListClick('starred')}
+                                className={(this.state.currentView === 'starred' ? 'active' : '')}>
+                                <i className="fas fa-star"></i>
+                            </li>
+                            <li onClick={() => this.handleListClick('upload')}
+                                className={(this.state.currentView === 'upload' ? 'active' : '')}>Upload
+                            </li>
 
-                        <li onClick={() => this.handleListClick('home')} className={(this.state.currentView === 'home' ? 'active' : '')}>Home</li>
-                        <li onClick={() => this.handleListClick('sign-out')} className={(this.state.currentView === 'sign-out' ? 'active' : '')}>Sign Out</li>
-                    </ul>
+                            <li onClick={() => this.handleListClick('home')}
+                                className={(this.state.currentView === 'home' ? 'active' : '')}>Home
+                            </li>
+                            <li onClick={() => this.handleListClick('sign-out')}
+                                className={(this.state.currentView === 'sign-out' ? 'active' : '')}>Sign Out
+                            </li>
+                        </ul>
                     </CSSTransitionGroup>
                 </div>
                 {!token ? (
@@ -117,31 +132,39 @@ class MainLayout extends Component {
                         <Login/>
                     </div>
                 ) : (
-                    <F>
-                        
+
                     <div className={style.mainArea}>
-                        <LogOut onLogout={this.signOut}/>
-                        <Crumbs onClick={this.handleNavigation} currentPath={currentPath}/>
-                        {currentPath !== '/' && <button className="btn" onClick={this.upToParent}>Up to parent</button>}
-                        <div className='showSearch'>
-                            <Search onFolderClick={this.handleNavigation} onStarClick={this.handleStarredFiles}/>
-                        </div>
+                        {this.state.currentView === 'sign-out' && <LogOut onLogout={this.signOut}/>}
+
                         {this.state.currentView === 'home' && <F>
-                            <h1> Dropbox Explorer</h1>
+                           <div className={style.homeHeader}>
+                                <h1> Dropbox Explorer</h1>
+                                <div className='showSearch'>
+                                    <Search onFolderClick={this.handleNavigation}
+                                            onStarClick={this.handleStarredFiles}/>
+                                </div>
+                           </div>
+                            <Crumbs onClick={this.handleNavigation} currentPath={currentPath}/>
+                            {currentPath !== '/' && <i className="far fa-caret-square-up fa-2x" onClick={this.upToParent}></i>}
+
                             <ShowContent
-                            onFolderClick={this.handleNavigation}
-                            files={files}
-                            onStarClick={this.handleStarredFiles}
+                                onFolderClick={this.handleNavigation}
+                                files={files}
+                                onStarClick={this.handleStarredFiles}
                             />
                         </F>}
-                        {this.state.currentView === 'upload' && <F><h1>Upload Files</h1><Upload/></F>}
-                        {this.state.currentView === 'starred' &&  <F>
+                        {this.state.currentView === 'upload' && <F>
+                            <h1>Upload Files</h1>
+                            <Crumbs onClick={this.handleNavigation} currentPath={currentPath}/>
+                            <Upload/>
+                        </F>}
+                        {this.state.currentView === 'starred' && <F>
                             <h1>Starred Files</h1>
                             <ShowContent
-                            onFolderClick={this.handleNavigation}
-                            files={starredItems}
-                            onStarClick={this.handleStarredFiles}
-                        />
+                                onFolderClick={this.handleNavigation}
+                                files={starredItems}
+                                onStarClick={this.handleStarredFiles}
+                            />
                         </F>}
                     </div>
                 )}
@@ -160,7 +183,7 @@ const mapStateToProps = state => {
     // Get all items in current path and add starred true if starred.
     const newFileList = currentFiles
         .map(file => {
-            if (starredItems.includes(file.path_lower)){
+            if (starredItems.includes(file.path_lower)) {
 
                 const newFile = {
                     ...file,
@@ -172,9 +195,9 @@ const mapStateToProps = state => {
             }
         });
     // Gets all the starred items and adds them to array
-    for(let path in state.files) {
+    for (let path in state.files) {
         state.files[path].map(file => {
-            if(starredItems.includes(file.path_lower)) {
+            if (starredItems.includes(file.path_lower)) {
                 const newFile = {
                     ...file,
                     starred: true
@@ -198,7 +221,7 @@ const mapStateToProps = state => {
 };
 
 export default connect(
-   mapStateToProps,
+    mapStateToProps,
     {
         setToken,
         getFilesFromDropbox,
