@@ -1,0 +1,15 @@
+.uploadLayout {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5%;
+    align-items: center;
+    margin-left: -12%;
+    height: 100vh;
+}
+
+.dropzoneStyling {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15%;
+}

@@ -3,11 +3,13 @@ import {uploadFile} from "../../actions";
 import {connect} from "react-redux";
 import Dropzone from 'react-dropzone';
 
+import './upload.css'
+import logo from '../../images/shareLogo_preview.png';
+
 class Upload extends Component {
 
 
-
-    render () {
+    render() {
         //let inputField;
 
         const onDrop = (acceptedFiles, rejectedFiles) => {
@@ -29,15 +31,21 @@ class Upload extends Component {
         // };
 
         return (
-            <div>
+            <div className='uploadLayout'>
                 {/*<form onSubmit={selectFileToUpload}>*/}
-                    {/*<label htmlFor="uploadFile"> Select file to upload</label>*/}
-                    {/*<input id="uploadFile" type="file" ref={(ref) => {inputField = ref;}} />*/}
-                    {/*<button type="submit">Upload</button>*/}
+                {/*<label htmlFor="uploadFile"> Select file to upload</label>*/}
+                {/*<input id="uploadFile" type="file" ref={(ref) => {inputField = ref;}} />*/}
+                {/*<button type="submit">Upload</button>*/}
                 {/*</form>*/}
                 <Dropzone onDrop={(files) => onDrop(files)}>
-                    <p>Drop files here</p>
-                    <button>Or select files to upload</button>
+                    <div className='dropzoneStyling'>
+                        <img className='shareLogo' src={logo} alt=""/>
+                        <p>Drop files here</p>
+                        <div>
+                            <button>Or select files to upload</button>
+                        </div>
+                    </div>
+
                 </Dropzone>
             </div>
         )
