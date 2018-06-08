@@ -2,11 +2,11 @@
     display: flex;
 }
 
-:local(li) {
+:local(.breadCrumbs li) {
     list-style: none;
 }
 
-:local(li+li:before) {
+:local(.breadCrumbs li+li:before) {
     padding: 8px;
     color: black;
     content: "|";
