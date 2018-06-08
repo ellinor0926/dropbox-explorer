@@ -11,16 +11,18 @@ export default function File({file, fileClick, folderClick, starClick}) {
     let itemIcon = 'far ';
     let starIcon;
 
+    // Check what icon (or image) to display
     if (folder) {
-        itemIcon += 'fa-folder-open'
+        itemIcon = 'fas fa-folder'
     } else {
         if (file.path_lower.includes('jpg')) {
             itemIcon = 'image';
         } else {
-            itemIcon += 'fa-file';
+            itemIcon = 'fas fa-file'
         }
     }
 
+    // Check if item is starred or not
     if (file.starred) {
         starIcon = 'fas fa-star fa-sm'
     } else {

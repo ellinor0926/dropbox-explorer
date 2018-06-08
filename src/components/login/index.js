@@ -4,10 +4,9 @@ import {saveToken} from "../../actions";
 
 import Dropbox from "dropbox";
 
-
-
 class Login extends Component {
 
+    // Save token on mount
     componentDidMount() {
       this.props.saveToken();
 
@@ -20,14 +19,11 @@ class Login extends Component {
        const authUrl = dbx.getAuthenticationUrl('http://localhost:3000/');
 
         return (
-
             <div>
                 <a href={authUrl}>Authenticate</a>
             </div>
-
         );
     }
-
 };
 
 export default connect(
@@ -35,7 +31,6 @@ export default connect(
         token: state.token,
         currentPath: state.currentPath
     }),
-
     {
         saveToken
     }
