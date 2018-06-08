@@ -23,14 +23,16 @@ export default class Search extends Component {
         }))
     };
 
+
     // handles the search when the button is clicked
     handleSearch = () => {
+
+
 
         getDropbox().filesSearch({path: '', query: this.state.search})
             .then(response => {
 
                 this.setState({
-                    currentlySearching: true,
                     foundFiles: [],
                     error: ''
                 });
@@ -57,6 +59,7 @@ export default class Search extends Component {
                 this.setState( prevState => ({
                     currentlySearching: false,
                 }));
+                 console.log(this.state.currentlySearching);
             })
             .catch(error => console.log(error))
     };
@@ -84,7 +87,7 @@ export default class Search extends Component {
         return (
             <div>
                 <input className={style.searchBar} type="text" onChange={this.handleChange} onKeyUp={this.inputSearch} placeholder="Search..."></input>
-                <button className={style.searchButton} onClick={() => this.handleSearch()}>Search</button>
+                <button className={style.searchButton} onClick={this.handleSearch}>Search</button>
                 <div>
                 { this.state.foundFiles.length > 0 && <button  className={style.searchButton} onClick={this.showSearchResults}>Show/Hide results</button>}
                 </div>

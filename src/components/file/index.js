@@ -15,7 +15,7 @@ export default function File({file, fileClick, folderClick, starClick}) {
     if (folder) {
         itemIcon = 'fas fa-folder'
     } else {
-        if (file.path_lower.includes('jpg')) {
+        if (file.path_lower.includes('jpg') || file.path_lower.includes('png') ) {
             itemIcon = 'image';
         } else {
             itemIcon = 'fas fa-file'

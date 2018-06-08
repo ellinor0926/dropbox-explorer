@@ -168,8 +168,12 @@ class MainLayout extends Component {
                                             onStarClick={this.handleStarredFiles}/>
                                 </div>
                            </div>
-                            <Crumbs onClick={this.handleNavigation} currentPath={currentPath}/>
-                            {currentPath !== '/' && <i className="far fa-caret-square-up fa-2x" onClick={this.upToParent}></i>}
+                            <span>
+                                {currentPath !== '/' && <i className="fas fa-caret-up fa-2x" onClick={this.upToParent}></i>}
+                                <Crumbs onClick={this.handleNavigation} currentPath={currentPath}/>
+                                </span>
+
+
 
                             <ShowContent
                                 onFolderClick={this.handleNavigation}
