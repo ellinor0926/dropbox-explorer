@@ -37,7 +37,8 @@ export default class Search extends Component {
 
                 if(response.matches.length === 0) {
                     this.setState({
-                        error: 'No files founds :('
+                        error: 'No files founds :(',
+                        showSearch: false
                     });
                     return false;
                 }
@@ -47,11 +48,14 @@ export default class Search extends Component {
                         foundFiles: [...prevState.foundFiles, match.metadata]
                     }))
                 }
+
+                this.setState( prevState => ({
+                    showSearch: true,
+                }));
             })
             .then(() => {
                 this.setState( prevState => ({
                     currentlySearching: false,
-                    showSearch: true
                 }));
             })
             .catch(error => console.log(error))
@@ -82,11 +86,11 @@ export default class Search extends Component {
                 <input className={style.searchBar} type="text" onChange={this.handleChange} onKeyUp={this.inputSearch} placeholder="Search..."></input>
                 <button className={style.searchButton} onClick={() => this.handleSearch()}>Search</button>
                 <div>
-                { this.state.foundFiles.length > 0 && <button onClick={this.showSearchResults}>Show results</button>}
+                { this.state.foundFiles.length > 0 && <button  className={style.searchButton} onClick={this.showSearchResults}>Show/Hide results</button>}
                 </div>
                 {this.state.currentlySearching && <p>Searching...</p>}
                 {this.state.error && <p>{this.state.error}</p>}
-                {this.state.showSearch &&
+                {this.state.showSearch  &&
                 <div className={style.showSearchFiles}>
 
                     <ShowContent
