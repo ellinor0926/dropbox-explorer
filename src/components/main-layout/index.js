@@ -1,6 +1,7 @@
 import React, {Component, Fragment as F} from 'react';
 import {connect} from 'react-redux';
 import Login from '../login';
+import LogOut from '../LogOut'
 import ShowContent from '../showContent';
 import {
     getFilesFromDropbox,
@@ -116,10 +117,11 @@ class MainLayout extends Component {
                         <Login/>
                     </div>
                 ) : (
-
+                    <F>
+                        
                     <div className={style.mainArea}>
-                        <button onClick={this.signOut} className="btn btn-lg">Sign Out</button>
-                        {currentPath !== '/' && <Crumbs onClick={this.handleNavigation} currentPath={currentPath}/>}
+                        <LogOut onLogout={this.signOut}/>
+                        <Crumbs onClick={this.handleNavigation} currentPath={currentPath}/>
                         {currentPath !== '/' && <button className="btn" onClick={this.upToParent}>Up to parent</button>}
                         <div className='showSearch'>
                             <Search onFolderClick={this.handleNavigation} onStarClick={this.handleStarredFiles}/>

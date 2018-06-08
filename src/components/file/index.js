@@ -4,15 +4,18 @@ import ImageThumbnail from './image.js'
 import style from './FileStyle.css'
 
 export default function File({file, fileClick, folderClick, starClick}) {
+    const folder = file['.tag'] === 'folder';
+    const fileSize = file.size / 1024;
+    const modifiedDate = new Date(file.client_modified).toLocaleDateString();
+
     let itemIcon = 'far ';
     let starIcon;
-    let folder = file['.tag'] === 'folder';
 
     // Check what icon (or image) to display
     if (folder) {
         itemIcon = 'fas fa-folder'
     } else {
-        if(file.path_lower.includes('jpg')) {
+        if (file.path_lower.includes('jpg')) {
             itemIcon = 'image';
         } else {
             itemIcon = 'fas fa-file'
@@ -30,15 +33,21 @@ export default function File({file, fileClick, folderClick, starClick}) {
         <div className={style.container}>
             <span onClick={folder ? folderClick : fileClick}>
                 <span className={folder ? style.folderIcon : style.fileIcon}>
-                    {itemIcon === 'image' && <ImageThumbnail file={file} />}
+                    {itemIcon === 'image' && <ImageThumbnail file={file}/>}
                     <i className={itemIcon}></i>
                 </span>
                <span>{file.name}</span>
             </span>
 
-            {folder ? <span className={style.metaData}> - </span> : <span className={style.metaData}>{new Date(file.client_modified).toLocaleDateString() }</span>}
-            {folder ? <span className={style.metaData}> - </span> : <span className={style.metaData}>{file.size / 1000}kb</span>}
-           <div className={style.starIcon}><i className={starIcon} onClick={starClick}></i></div>
+            <span className={style.metaData}>
+                {folder ? '-' : modifiedDate}
+            </span>
+            <span className={style.metaData}>
+                {folder ? '-' : fileSize.toFixed(2) + 'kb'}
+            </span>
+            <div className={style.starIcon}>
+                <i className={starIcon} onClick={starClick}></i>
+            </div>
         </div>
     )
 
