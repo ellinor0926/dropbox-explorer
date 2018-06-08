@@ -1,0 +1,12 @@
+.loginLayout {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.shareLogo {
+    width: 20%;
+    height: auto;
+}

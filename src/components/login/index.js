@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import {saveToken} from "../../actions";
 
 import Dropbox from "dropbox";
+import logo from '../../images/shareLogo_preview.png';
+import './login.css'
 
 class Login extends Component {
 
@@ -19,8 +21,11 @@ class Login extends Component {
        const authUrl = dbx.getAuthenticationUrl('http://localhost:3000/');
 
         return (
-            <div>
-                <a href={authUrl}>Authenticate</a>
+            <div className='loginLayout'>
+                <img className='shareLogo' src={logo} alt=""/>
+                <h1>Welcome</h1>
+                <p>To use Share you have to sign in with Dropbox</p>
+                <a href={authUrl}>Click here to authenticate</a>
             </div>
         );
     }
