@@ -21,6 +21,7 @@ class MainLayout extends Component {
 
     state = {
         currentView: 'home',
+        signingOut: false
     };
 
     componentDidMount() {
@@ -51,7 +52,7 @@ class MainLayout extends Component {
             this.props.logOut();
         } else {
             this.setState({
-                currentView: 'home'
+                signingOut: false
             })
         }
 
@@ -78,6 +79,10 @@ class MainLayout extends Component {
             this.setState(prevState => ({
                 searching: true,
             }));
+        }  else if (clicked === 'sign-out') {
+            this.setState(prevState => ({
+                signingOut: true
+            }));
         } else {
             this.setState(prevState => ({
                 currentView: clicked,
@@ -101,14 +106,33 @@ class MainLayout extends Component {
         return (
             <div className={style.mainGrid}>
                 <div className={style.sideBar}>
-                    {this.state.userName &&
-                    <h1 className={style.userName}>Welcome {this.state.userName}! Let's start sharing.</h1>}
                     <CSSTransitionGroup
                         transitionName="fade"
                         transitionEnterTimeout={500}
                         transitionLeaveTimeout={500}
                     >
+                        {!token ? (
+                            <div className="sidebar-links">
+                                <div>
+                                    <p>
+                                        Hey! Welcome to Share, our project that let's you explore dropbox in a more colorful way.
+                                        This website was created by Rickard and Ellinor for a school assignment and is using ReactJS, Redux and
+                                        Dropbox's own javascript SDK. Feel free to follow us! :)
+                                    </p>
+                                </div>
+                                <div className="socialLinks">
+                                    <div>
+                                         <h3>Ellinor Danielsson</h3>
+                                        <span><a href="https://github.com/ellinor0926">GitHub</a>  <a href="https://se.linkedin.com/in/ellinor-danielsson-309210153">LinkedIn</a></span>
+                                    </div>
 
+                                    <div>
+                                        <h3>Rickard Lundby</h3>
+                                        <span><a href="https://github.com/rlundby">GitHub</a>  <a href="https://se.linkedin.com/in/rickard-lundby">LinkedIn</a></span>
+                                    </div>
+                                </div>
+                            </div>
+                            ):(
                         <ul>
                             <li onClick={() => this.handleListClick('starred')}
                                 className={(this.state.currentView === 'starred' ? 'active' : '')}>
@@ -117,7 +141,6 @@ class MainLayout extends Component {
                             <li onClick={() => this.handleListClick('upload')}
                                 className={(this.state.currentView === 'upload' ? 'active' : '')}>Upload
                             </li>
-
                             <li onClick={() => this.handleListClick('home')}
                                 className={(this.state.currentView === 'home' ? 'active' : '')}>Home
                             </li>
@@ -125,6 +148,7 @@ class MainLayout extends Component {
                                 className={(this.state.currentView === 'sign-out' ? 'active' : '')}>Sign Out
                             </li>
                         </ul>
+                            )}
                     </CSSTransitionGroup>
                 </div>
                 {!token ? (
@@ -134,11 +158,11 @@ class MainLayout extends Component {
                 ) : (
 
                     <div className={style.mainArea}>
-                        {this.state.currentView === 'sign-out' && <LogOut onLogout={this.signOut}/>}
+                        {this.state.signingOut && <LogOut onLogout={this.signOut}/>}
 
                         {this.state.currentView === 'home' && <F>
                            <div className={style.homeHeader}>
-                                <h1> Dropbox Explorer</h1>
+                                <h1 className="siteHeaders"> Dropbox Explorer</h1>
                                 <div className='showSearch'>
                                     <Search onFolderClick={this.handleNavigation}
                                             onStarClick={this.handleStarredFiles}/>
@@ -154,12 +178,12 @@ class MainLayout extends Component {
                             />
                         </F>}
                         {this.state.currentView === 'upload' && <F>
-                            <h1>Upload Files</h1>
+                            <h1 className="siteHeaders">Upload Files</h1>
                             <Crumbs onClick={this.handleNavigation} currentPath={currentPath}/>
                             <Upload/>
                         </F>}
                         {this.state.currentView === 'starred' && <F>
-                            <h1>Starred Files</h1>
+                            <h1 className="siteHeaders">Starred Files</h1>
                             <ShowContent
                                 onFolderClick={this.handleNavigation}
                                 files={starredItems}

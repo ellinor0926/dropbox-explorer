@@ -2,10 +2,10 @@
     display: flex;
     position: absolute;
     background: white;
-    border: solid 1px #d088e2;
+    border: solid 1px #58555a;
     border-top: 0;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.54);
-    width: 40vw;
+    overflow-y: auto;
 }
 
 :local(.showSearchFiles i) {
