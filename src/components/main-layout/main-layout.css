@@ -105,3 +105,9 @@
 .siteHeaders {
     font-family: 'Open Sans Condensed', sans-serif;
 }
+
+.navIcons {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}

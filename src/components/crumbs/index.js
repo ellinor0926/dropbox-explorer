@@ -21,7 +21,7 @@ export default function Crumbs({onClick, currentPath}) {
                         onClick={() => goToPath(path)}
                     >
                         {index === 0
-                            ? <i className="fas fa-home fa-lg"></i>
+                            ? <i className="fas fa-home fa-2x"></i>
                             : path.toUpperCase()}
                     </li>
             })}

@@ -1,13 +1,17 @@
 :local(.breadCrumbs) {
     display: flex;
+    color: #b06ba0;
+    align-items: baseline;
 }
 
 :local(.breadCrumbs li) {
     list-style: none;
+    cursor: pointer;
 }
 
 :local(.breadCrumbs li+li:before) {
     padding: 8px;
-    color: black;
+    color: #b06ba0;
     content: "|";
+    font-size: x-large;
 }
