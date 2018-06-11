@@ -19,15 +19,15 @@ import Search from "../search"
 
 class MainLayout extends Component {
 
+    // This is the local state - it helps us navigate what to show on the site
     state = {
         currentView: 'home',
         signingOut: false
     };
 
-    componentDidMount() {
+    componentDidMount() {}
 
-    }
-
+    // The up to parent button
     upToParent = () => {
         // Splits up the current path and removes last element
         const newPathArray = this.props.currentPath.split('/');
@@ -41,11 +41,13 @@ class MainLayout extends Component {
 
     };
 
+    // This function handles navigations on site
     handleNavigation = (path) => {
         // Gets files from new path
         this.props.getFilesFromDropbox(path)
     };
 
+    // This function toggles the sign out modal
     signOut = (value) => {
         // Signs the user out
         if (value === 'logout') {
@@ -58,6 +60,7 @@ class MainLayout extends Component {
 
     };
 
+    // This function handles the starring of files
     handleStarredFiles = (file) => {
         // If the file is already starred, we want the click to remove it from local storage
         if (file.starred) {
@@ -74,6 +77,7 @@ class MainLayout extends Component {
 
     };
 
+    // This function handles the sidebar links and displays the correct content on site
     handleListClick = (clicked) => {
         if (clicked === 'search') {
             this.setState(prevState => ({
@@ -168,8 +172,12 @@ class MainLayout extends Component {
                                             onStarClick={this.handleStarredFiles}/>
                                 </div>
                            </div>
-                            <Crumbs onClick={this.handleNavigation} currentPath={currentPath}/>
-                            {currentPath !== '/' && <i className="far fa-caret-square-up fa-2x" onClick={this.upToParent}></i>}
+                            <span>
+                                {currentPath !== '/' && <i className="fas fa-caret-up fa-2x" onClick={this.upToParent}></i>}
+                                <Crumbs onClick={this.handleNavigation} currentPath={currentPath}/>
+                                </span>
+
+
 
                             <ShowContent
                                 onFolderClick={this.handleNavigation}

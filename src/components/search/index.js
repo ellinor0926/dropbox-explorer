@@ -23,18 +23,19 @@ export default class Search extends Component {
         }))
     };
 
+
     // handles the search when the button is clicked
     handleSearch = () => {
 
         getDropbox().filesSearch({path: '', query: this.state.search})
             .then(response => {
 
+                // Reset the state between searches
                 this.setState({
-                    currentlySearching: true,
                     foundFiles: [],
                     error: ''
                 });
-
+                // No files found? ERROR :D
                 if(response.matches.length === 0) {
                     this.setState({
                         error: 'No files founds :(',
@@ -43,36 +44,43 @@ export default class Search extends Component {
                     return false;
                 }
 
+                //Files found? Cool! Let's put them in an array
                 for(let match of  response.matches) {
                     this.setState(prevState => ({
                         foundFiles: [...prevState.foundFiles, match.metadata]
                     }))
                 }
 
+                // We want to display the search results by default
                 this.setState( prevState => ({
                     showSearch: true,
                 }));
             })
             .then(() => {
+                // We aren't searching anymore - so lets toggle that flag
                 this.setState( prevState => ({
                     currentlySearching: false,
                 }));
+                 console.log(this.state.currentlySearching);
             })
             .catch(error => console.log(error))
     };
 
+    // This allows the user to close the search box by clicking the X
     closeSearchBox = () => {
         this.setState({
             showSearch: false
         });
     };
 
+    // Allows the user to press enter to search
     inputSearch = event => {
         if(event.keyCode === 13) {
             this.handleSearch();
         }
     };
 
+    // Allows the user to toggle the search results
     showSearchResults = () => {
         this.setState(prevState =>({
             showSearch: !prevState.showSearch
@@ -84,7 +92,7 @@ export default class Search extends Component {
         return (
             <div>
                 <input className={style.searchBar} type="text" onChange={this.handleChange} onKeyUp={this.inputSearch} placeholder="Search..."></input>
-                <button className={style.searchButton} onClick={() => this.handleSearch()}>Search</button>
+                <button className={style.searchButton} onClick={this.handleSearch}>Search</button>
                 <div>
                 { this.state.foundFiles.length > 0 && <button  className={style.searchButton} onClick={this.showSearchResults}>Show/Hide results</button>}
                 </div>
