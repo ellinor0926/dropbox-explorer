@@ -15,6 +15,7 @@ import style from './main-layout.css'
 import {CSSTransitionGroup} from 'react-transition-group';
 import {getDropbox} from "../../dropboxShared";
 import Search from "../search"
+import UpToParent from "../UpToParent";
 
 
 class MainLayout extends Component {
@@ -172,13 +173,12 @@ class MainLayout extends Component {
                                             onStarClick={this.handleStarredFiles}/>
                                 </div>
                            </div>
-                            <span>
-                                {currentPath !== '/' && <i className="fas fa-caret-up fa-2x" onClick={this.upToParent}></i>}
+
+                            <span className="navIcons">
                                 <Crumbs onClick={this.handleNavigation} currentPath={currentPath}/>
-                                </span>
-
-
-
+                                {currentPath !== '/' && <UpToParent onClick={this.upToParent}/>}
+                            </span>
+                            
                             <ShowContent
                                 onFolderClick={this.handleNavigation}
                                 files={files}
