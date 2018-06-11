@@ -18,7 +18,7 @@ class Login extends Component {
        const CLIENT_ID = 't4n1bbstcjhb69w';
        const dbx = new Dropbox.Dropbox({ clientId: CLIENT_ID });
 
-       const authUrl = dbx.getAuthenticationUrl('http://localhost:3000/');
+       const authUrl = dbx.getAuthenticationUrl('https://sharedrops.netlify.com/');
 
         return (
             <div className='loginLayout'>
