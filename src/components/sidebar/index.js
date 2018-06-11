@@ -9,7 +9,7 @@ export default function Sidebar({token, currentView, onClick}) {
                     <div className="sidebar-links">
                         <div>
                             <p>
-                                Hey! Welcome to Share, our project that let's you explore dropbox in a more colorful way.
+                                Hey! Welcome to Share, our project that lets you explore dropbox in a more colorful way.
                                 This website was created by Rickard and Ellinor for a school assignment and is using ReactJS, Redux and
                                 Dropbox's own javascript SDK. Feel free to follow us! :)
                             </p>
