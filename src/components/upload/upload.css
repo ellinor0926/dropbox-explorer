@@ -22,7 +22,9 @@
     background-color: #fefefe;
     margin: auto;
     padding: 20px;
-    box-shadow: 2px 2px 2px grey;
+    box-shadow: 5px 5px 5px #606060;
+    width: 20vw;
+    border-radius: 20px;
 }
 
 .dropzoneStyling {
@@ -33,6 +35,15 @@
 }
 
 .toggleUpload {
-    text-align: right;
-    font-size: 25px;
+    font-size: 30px;
+    align-self: stretch;
+    color: #aaaaaa;
+    text-align: end;
+}
+
+.uploadButton {
+    border: none;
+    background: #c0c9df;
+    padding: 10px;
+    cursor: pointer;
 }

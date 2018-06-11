@@ -13,6 +13,7 @@
 }
 
 :local(.modalContent) {
+    font-family: 'Open Sans Condensed', sans-serif;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -22,6 +23,7 @@
     padding: 20px;
     width: 40%;
     box-shadow: 2px 2px 2px grey;
+    border-radius: 20px;
 }
 
 :local(.buttons) {
@@ -29,16 +31,16 @@
     flex-direction: column;
 }
 :local(.btn) {
-    border-radius: 7px;
-    padding: 0.5em;
-    color: white;
-    border: none;
     box-shadow: 2px 2px 2px grey;
+    border: none;
+    background: #c0c9df;
+    padding: 10px;
+    cursor: pointer;
     margin: 10px;
 }
 
 :local(.logoutBtn) {
-    background-color: rgba(255, 0, 0, 0.48);
+    background-color: rgba(203, 114, 173, 0.85);
 }
 
 :local(.theOtherBtn) {

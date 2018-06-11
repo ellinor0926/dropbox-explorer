@@ -8,7 +8,7 @@ export default function LogOut({onLogout}) {
         <div className={style.logoutModal}>
             <div className={style.modalContent}>
                 <span className={style.close} onClick={() => onLogout(false)}>&times;</span>
-                <h3>Are you sure you want to sign out?</h3>
+                <h1>Are you sure you want to sign out?</h1>
                 <div className={style.buttons}>
                     <button
                         onClick={() => onLogout('logout')}
