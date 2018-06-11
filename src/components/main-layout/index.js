@@ -12,10 +12,10 @@ import {
 import Crumbs from "../crumbs";
 import Upload from "../upload";
 import style from './main-layout.css'
-import {CSSTransitionGroup} from 'react-transition-group';
 import {getDropbox} from "../../dropboxShared";
 import Search from "../search"
 import UpToParent from "../UpToParent";
+import Sidebar from "../sidebar";
 
 
 class MainLayout extends Component {
@@ -82,24 +82,24 @@ class MainLayout extends Component {
     // This function handles the sidebar links and displays the correct content on site
     handleListClick = (clicked) => {
         if (clicked === 'search') {
-            this.setState(prevState => ({
+            this.setState({
                 searching: true,
-            }));
+            });
         }  else if (clicked === 'sign-out') {
-            this.setState(prevState => ({
+            this.setState({
                 signingOut: true
-            }));
+            });
         } else if (clicked === 'uploading') {
-            this.setState(prevState => ({
+            this.setState({
                 uploading: true
-            }));
+            });
         }
             else {
-            this.setState(prevState => ({
+            this.setState({
                 currentView: clicked,
                 searching: false,
                 uploading: false
-            }));
+            });
         }
     };
 
@@ -123,52 +123,11 @@ class MainLayout extends Component {
 
         return (
             <div className={style.mainGrid}>
-                <div className={style.sideBar}>
-                    <CSSTransitionGroup
-                        transitionName="fade"
-                        transitionEnterTimeout={500}
-                        transitionLeaveTimeout={500}
-                    >
-                        {!token ? (
-                            <div className="sidebar-links">
-                                <div>
-                                    <p>
-                                        Hey! Welcome to Share, our project that let's you explore dropbox in a more colorful way.
-                                        This website was created by Rickard and Ellinor for a school assignment and is using ReactJS, Redux and
-                                        Dropbox's own javascript SDK. Feel free to follow us! :)
-                                    </p>
-                                </div>
-                                <div className="socialLinks">
-                                    <div>
-                                         <h3>Ellinor Danielsson</h3>
-                                        <span><a href="https://github.com/ellinor0926">GitHub</a>  <a href="https://se.linkedin.com/in/ellinor-danielsson-309210153">LinkedIn</a></span>
-                                    </div>
-
-                                    <div>
-                                        <h3>Rickard Lundby</h3>
-                                        <span><a href="https://github.com/rlundby">GitHub</a>  <a href="https://se.linkedin.com/in/rickard-lundby">LinkedIn</a></span>
-                                    </div>
-                                </div>
-                            </div>
-                            ):(
-                        <ul>
-                            <li onClick={() => this.handleListClick('starred')}
-                                className={(this.state.currentView === 'starred' ? 'active' : '')}>
-                                <i className="fas fa-star"></i>
-                            </li>
-                            <li onClick={() => this.handleListClick('uploading')}
-                                className={(this.state.currentView === 'upload' ? 'active' : '')}>Upload
-                            </li>
-                            <li onClick={() => this.handleListClick('home')}
-                                className={(this.state.currentView === 'home' ? 'active' : '')}>Home
-                            </li>
-                            <li onClick={() => this.handleListClick('sign-out')}
-                                className={(this.state.currentView === 'sign-out' ? 'active' : '')}>Sign Out
-                            </li>
-                        </ul>
-                            )}
-                    </CSSTransitionGroup>
-                </div>
+                <Sidebar
+                    token={token}
+                    currentView={this.state.currentView}
+                    onClick={this.handleListClick}
+                />
                 {!token ? (
                     <div className={style.mainArea}>
                         <Login/>
