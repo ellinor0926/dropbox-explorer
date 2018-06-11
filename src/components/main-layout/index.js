@@ -6,7 +6,7 @@ import ShowContent from '../showContent';
 import {
     getFilesFromDropbox,
     handleStarredItems,
-    logOut,
+    logOut, setCurrentPath,
     setToken
 } from "../../actions";
 import Crumbs from "../crumbs";
@@ -27,7 +27,19 @@ class MainLayout extends Component {
         uploading: false
     };
 
-    componentDidMount() {}
+    componentDidMount() {
+        if(this.props.starredFromStore.length > 0) {
+
+            this.props.starredFromStore.map(item => {
+                const newArray = item.split('/');
+                newArray.pop();
+                let newPath = newArray.join('/');
+                newPath === '' ? null : this.props.getFilesFromDropbox(newPath)
+            });
+
+            this.props.setCurrentPath('/');
+        }
+    }
 
     // The up to parent button
     upToParent = () => {
@@ -256,7 +268,6 @@ const mapStateToProps = state => {
                 return file;
             }
         })
-
     }
 
     return {
@@ -275,5 +286,6 @@ export default connect(
         getFilesFromDropbox,
         logOut,
         handleStarredItems,
+        setCurrentPath
     }
 )(MainLayout);
