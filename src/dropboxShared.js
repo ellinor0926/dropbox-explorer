@@ -1,4 +1,4 @@
-import { Dropbox } from "dropbox/src/index";
+import { Dropbox } from "dropbox/dist/Dropbox-sdk";
 
 let instance;
 
