@@ -22,6 +22,7 @@ export default function ShowContent({onFolderClick, files, onStarClick}) {
                 <span>Name</span><span className={style.metaCol}>Modified</span><span className={style.metaCol}>Size</span><span> </span>
             </div>
 
+
             {files.map((file, i) =>
                 <File
                     fileClick={() => downloadFile(file)}

@@ -21,7 +21,7 @@ export const setToken = token => ({
     currentPath
 });
 
- const setCurrentPath = (path) => ({
+ export const setCurrentPath = (path) => ({
     type: SET_CURRENT_PATH,
     path
 });
