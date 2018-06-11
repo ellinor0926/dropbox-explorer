@@ -23,56 +23,63 @@ export default class Search extends Component {
         }))
     };
 
+
     // handles the search when the button is clicked
     handleSearch = () => {
+
+        // Reset the state between searches
+        this.setState({
+            foundFiles: [],
+            error: '',
+            currentlySearching: true
+        });
 
         getDropbox().filesSearch({path: '', query: this.state.search})
             .then(response => {
 
-                this.setState({
-                    currentlySearching: true,
-                    foundFiles: [],
-                    error: ''
-                });
+                const newState = { currentlySearching: false };
 
+                // No matches? Throw an error
                 if(response.matches.length === 0) {
                     this.setState({
+                        ...newState,
                         error: 'No files founds :(',
                         showSearch: false
                     });
                     return false;
                 }
 
+                //Files found? Cool! Let's put them in an array
+                const matches = [];
                 for(let match of  response.matches) {
-                    this.setState(prevState => ({
-                        foundFiles: [...prevState.foundFiles, match.metadata]
-                    }))
+                    matches.push(match.metadata);
                 }
 
-                this.setState( prevState => ({
-                    showSearch: true,
-                }));
+                this.setState(prevState => ({
+                    ...newState,
+                    foundFiles: [...prevState.foundFiles, ...matches],
+                    showSearch: true
+                }))
             })
-            .then(() => {
-                this.setState( prevState => ({
-                    currentlySearching: false,
-                }));
-            })
+
             .catch(error => console.log(error))
     };
 
+    // This allows the user to close the search box by clicking the X
     closeSearchBox = () => {
         this.setState({
             showSearch: false
         });
     };
 
+    // Allows the user to press enter to search
     inputSearch = event => {
         if(event.keyCode === 13) {
             this.handleSearch();
         }
     };
 
+    // Allows the user to toggle the search results
     showSearchResults = () => {
         this.setState(prevState =>({
             showSearch: !prevState.showSearch
@@ -84,11 +91,11 @@ export default class Search extends Component {
         return (
             <div>
                 <input className={style.searchBar} type="text" onChange={this.handleChange} onKeyUp={this.inputSearch} placeholder="Search..."></input>
-                <button className={style.searchButton} onClick={() => this.handleSearch()}>Search</button>
+                <button className={style.searchButton} onClick={this.handleSearch}>Search</button>
                 <div>
                 { this.state.foundFiles.length > 0 && <button  className={style.searchButton} onClick={this.showSearchResults}>Show/Hide results</button>}
                 </div>
-                {this.state.currentlySearching && <p>Searching...</p>}
+                {this.state.currentlySearching && <p>Searching <i className="fas fa-spinner fa-spin"></i></p>}
                 {this.state.error && <p>{this.state.error}</p>}
                 {this.state.showSearch  &&
                 <div className={style.showSearchFiles}>

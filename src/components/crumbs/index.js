@@ -4,9 +4,11 @@ import style from './Crumbs.css';
 
 export default function Crumbs({onClick, currentPath}) {
 
+    // Splits up the path so we can put them in our crumbs
     let paths = currentPath.split('/').filter(path => path !== '');
     paths.unshift('/');
 
+    // This function lets the user navigate to a new path by clicking on the crumbs
     const goToPath = (path) => {
        const newPath = currentPath.split(path)[0] + path;
        onClick(newPath);
