@@ -31,7 +31,7 @@ export default function File({file, fileClick, folderClick, starClick}) {
 
     return (
         <div className={style.container}>
-            <span onClick={folder ? folderClick : fileClick}>
+            <span  className={style.nameBar} onClick={folder ? folderClick : fileClick}>
                 <span className={folder ? style.folderIcon : style.fileIcon}>
                     {itemIcon === 'image' && <ImageThumbnail file={file}/>}
                     <i className={itemIcon}></i>
