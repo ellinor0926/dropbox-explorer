@@ -85,6 +85,7 @@ export const saveToken = () => (dispatch) => {
 
 };
 
+//Action creator to log out
 export const logOut = () => (dispatch) => {
 
     localStorage.removeItem('token');
@@ -94,6 +95,7 @@ export const logOut = () => (dispatch) => {
 
 };
 
+// Upload files
 export const uploadFile = (file, path) => (dispatch) => {
 
     getDropbox().filesUpload({path: path + file.name, contents: file})
@@ -107,6 +109,7 @@ export const uploadFile = (file, path) => (dispatch) => {
 
 };
 
+// Handles the click on starred items
 export const handleStarredItems = (file) => (dispatch) => {
     if (file.starred === true) {
         dispatch(removeFromStarredItems(file))

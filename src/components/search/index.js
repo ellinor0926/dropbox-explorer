@@ -27,16 +27,15 @@ export default class Search extends Component {
     // handles the search when the button is clicked
     handleSearch = () => {
 
-
-
         getDropbox().filesSearch({path: '', query: this.state.search})
             .then(response => {
 
+                // Reset the state between searches
                 this.setState({
                     foundFiles: [],
                     error: ''
                 });
-
+                // No files found? ERROR :D
                 if(response.matches.length === 0) {
                     this.setState({
                         error: 'No files founds :(',
@@ -45,17 +44,20 @@ export default class Search extends Component {
                     return false;
                 }
 
+                //Files found? Cool! Let's put them in an array
                 for(let match of  response.matches) {
                     this.setState(prevState => ({
                         foundFiles: [...prevState.foundFiles, match.metadata]
                     }))
                 }
 
+                // We want to display the search results by default
                 this.setState( prevState => ({
                     showSearch: true,
                 }));
             })
             .then(() => {
+                // We aren't searching anymore - so lets toggle that flag
                 this.setState( prevState => ({
                     currentlySearching: false,
                 }));
@@ -64,18 +66,21 @@ export default class Search extends Component {
             .catch(error => console.log(error))
     };
 
+    // This allows the user to close the search box by clicking the X
     closeSearchBox = () => {
         this.setState({
             showSearch: false
         });
     };
 
+    // Allows the user to press enter to search
     inputSearch = event => {
         if(event.keyCode === 13) {
             this.handleSearch();
         }
     };
 
+    // Allows the user to toggle the search results
     showSearchResults = () => {
         this.setState(prevState =>({
             showSearch: !prevState.showSearch
