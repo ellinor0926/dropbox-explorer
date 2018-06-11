@@ -11,8 +11,3 @@ export const createDropbox = accessToken => {
 export const getDropbox = () => {
     return instance;
 };
-
-
-starredItems.filter(item => {
-    if (response.entries)
-})
