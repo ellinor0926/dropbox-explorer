@@ -22,7 +22,8 @@ class MainLayout extends Component {
     // This is the local state - it helps us navigate what to show on the site
     state = {
         currentView: 'home',
-        signingOut: false
+        signingOut: false,
+        uploading: false
     };
 
     componentDidMount() {}
@@ -87,12 +88,24 @@ class MainLayout extends Component {
             this.setState(prevState => ({
                 signingOut: true
             }));
-        } else {
+        } else if (clicked === 'uploading') {
             this.setState(prevState => ({
-                currentView: clicked,
-                searching: false
+                uploading: true
             }));
         }
+            else {
+            this.setState(prevState => ({
+                currentView: clicked,
+                searching: false,
+                uploading: false
+            }));
+        }
+    };
+
+    toggleUpload = () => {
+        this.setState( prevState => ({
+            uploading: !prevState.uploading
+        }))
     };
 
 
@@ -142,7 +155,7 @@ class MainLayout extends Component {
                                 className={(this.state.currentView === 'starred' ? 'active' : '')}>
                                 <i className="fas fa-star"></i>
                             </li>
-                            <li onClick={() => this.handleListClick('upload')}
+                            <li onClick={() => this.handleListClick('uploading')}
                                 className={(this.state.currentView === 'upload' ? 'active' : '')}>Upload
                             </li>
                             <li onClick={() => this.handleListClick('home')}
@@ -177,18 +190,14 @@ class MainLayout extends Component {
                                 <Crumbs onClick={this.handleNavigation} currentPath={currentPath}/>
                                 </span>
 
-
-
                             <ShowContent
                                 onFolderClick={this.handleNavigation}
                                 files={files}
                                 onStarClick={this.handleStarredFiles}
                             />
                         </F>}
-                        {this.state.currentView === 'upload' && <F>
-                            <h1 className="siteHeaders">Upload Files</h1>
-                            <Crumbs onClick={this.handleNavigation} currentPath={currentPath}/>
-                            <Upload/>
+                        {this.state.uploading && <F>
+                            <Upload uploadToggle={this.toggleUpload}/>
                         </F>}
                         {this.state.currentView === 'starred' && <F>
                             <h1 className="siteHeaders">Starred Files</h1>
