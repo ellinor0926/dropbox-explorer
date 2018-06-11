@@ -1,0 +1,6 @@
+:local(.icon) {
+    padding-right: 10%;
+    color: #b06ba0;
+    text-align: center;
+    cursor: pointer;
+}
