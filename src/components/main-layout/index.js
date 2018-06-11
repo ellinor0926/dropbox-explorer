@@ -45,6 +45,9 @@ class MainLayout extends Component {
 
     // This function handles navigations on site
     handleNavigation = (path) => {
+        this.setState({
+            currentView: 'home'
+        });
         // Gets files from new path
         this.props.getFilesFromDropbox(path)
     };
