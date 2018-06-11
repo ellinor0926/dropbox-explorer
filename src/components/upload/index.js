@@ -33,18 +33,21 @@ class Upload extends Component {
         return (
             <div className='uploadLayout'>
                 <div className="uploadModalContent">
-                    <span className="toggleUpload" onClick={() => this.props.uploadToggle(false)}>&times;</span>
+
+                <span className="toggleUpload" onClick={() => this.props.uploadToggle(false)}>&times;</span>
+
+
                 {/*<form onSubmit={selectFileToUpload}>*/}
                 {/*<label htmlFor="uploadFile"> Select file to upload</label>*/}
                 {/*<input id="uploadFile" type="file" ref={(ref) => {inputField = ref;}} />*/}
                 {/*<button type="submit">Upload</button>*/}
                 {/*</form>*/}
-                    <Dropzone onDrop={(files) => onDrop(files)}>
+                    <Dropzone style={{}} onDrop={(files) => onDrop(files)}>
                         <div className='dropzoneStyling'>
                             <img className='shareLogo' src={logo} alt=""/>
                             <p>Drop files here</p>
                             <div>
-                                <button>Or select files to upload</button>
+                                <button className="uploadButton">Or select files to upload</button>
                             </div>
                         </div>
 
